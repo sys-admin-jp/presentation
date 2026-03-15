@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>【プレゼン用カンペ】ファイルメーカー ➔ Supabase移行</title>
     <style>
-        /* 自分用カンペのためのシンプルなスタイル（ダークモード） */
+        /* 自分用カンペのためのシンプルなスタイル（ダークモード・高コントラスト） */
         body {
-            background-color: #121212;
-            color: #e0e0e0;
+            background-color: #121212; /* 暗い背景 */
+            color: #ffffff; /* 基本の文字色を真っ白に（明るめ） */
             font-family: sans-serif;
             line-height: 1.6;
             font-size: 18px; /* 大きめのフォント */
@@ -18,19 +18,19 @@
         }
         h1 {
             color: #ffffff;
-            border-bottom: 2px solid #333;
+            border-bottom: 2px solid #444;
             padding-bottom: 10px;
         }
         h2 {
-            color: #66b3ff;
+            color: #66b3ff; /* 明るい青 */
             margin-top: 50px;
             border-left: 5px solid #66b3ff;
             padding-left: 10px;
         }
         h3 {
-            color: #ffaa00;
+            color: #ffcc00; /* 明るいオレンジ・黄色 */
             margin-top: 30px;
-            border-bottom: 1px dashed #444;
+            border-bottom: 1px dashed #555;
             padding-bottom: 5px;
         }
         nav {
@@ -41,6 +41,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            border: 1px solid #333;
         }
         a {
             color: #ffffff;
@@ -54,8 +55,8 @@
         }
         /* ト書き（行動指示）用のスタイル */
         .direction {
-            background-color: #332b00;
-            color: #ffcc00;
+            background-color: #2b2400;
+            color: #ffdd55; /* 明るい黄色 */
             padding: 10px;
             margin: 20px 0 10px 0;
             border-left: 5px solid #ffcc00;
@@ -66,7 +67,7 @@
             background-color: #1e1e1e;
             padding: 15px;
             margin-bottom: 20px;
-            border-left: 5px solid #4CAF50;
+            border-left: 5px solid #4CAF50; /* 明るい緑 */
             border-radius: 3px;
         }
         /* Q&A用のスタイル */
@@ -79,7 +80,7 @@
         }
         .question {
             font-weight: bold;
-            color: #99ccff;
+            color: #99ccff; /* より明るい水色 */
             font-size: 1.2em;
             margin-bottom: 10px;
         }
@@ -93,17 +94,14 @@
         }
         .term-title {
             font-weight: bold;
-            color: #99ccff;
+            color: #81c784; /* 明るい緑 */
             display: block;
             margin-bottom: 5px;
             font-size: 1.1em;
         }
-        /* 強調文字（赤字） */
+        /* 強調文字（文字色のみ・明るい黄色） */
         strong {
-            color: #ffaaaa;
-            background-color: rgba(255, 0, 0, 0.2);
-            padding: 2px 4px;
-            border-radius: 3px;
+            color: #ffee00; 
         }
         /* スムーススクロール */
         html { scroll-behavior: smooth; }
@@ -149,7 +147,7 @@
 
     <h3>メリット③：劇的なコストダウン（ライセンスの呪縛からの解放）</h3>
     <div class="speech">
-        ファイルメーカーはユーザー数課金のため、社員に展開するほど固定費が膨らみます。今回採用したSupabaseは通信量に対するインフラ課金です。<strong>アカウント数は5万人まで実質無料</strong>のため、新入社員が入社した場合、Googleアカウントを発行するだけで自由にアクセスすることが可能です。将来的に有料プランにしてもプロジェクト全体で月額25$（約4,000円）で済むため、IT固定費を劇的に削減できます。」
+        「ファイルメーカーはユーザー数課金のため、社員に展開するほど固定費が膨らみます。今回採用したSupabaseは通信量に対するインフラ課金です。<strong>アカウント数は5万人まで実質無料</strong>のため、新入社員が入社した場合、Googleアカウントを発行するだけで自由にアクセスすることが可能です。将来的に有料プランにしてもプロジェクト全体で月額25$（約4,000円）で済むため、IT固定費を劇的に削減できます。」
     </div>
 
     <h3>メリット④：将来への安心（データ資産の独立）</h3>
