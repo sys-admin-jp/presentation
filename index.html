@@ -40,6 +40,7 @@
             border-radius: 5px;
             position: sticky;
             top: 0;
+            z-index: 100;
         }
         a {
             color: #ffffff;
@@ -165,101 +166,96 @@
     </div>
 
 
-    <h2 id="qa" class="text-xl sm:text-2xl font-bold text-slate-800 border-l-8 border-blue-500 pl-4 mt-16 bg-blue-50 py-3 rounded-r-lg shadow-sm mb-6">
-        🛡️ 2. 経営陣からの想定Q&A
-    </h2>
+    <h2 id="qa">🛡️ 2. 経営陣からの想定Q&A</h2>
 
-    <div class="bg-purple-50 border border-purple-100 border-l-8 border-purple-500 p-6 mb-6 rounded-lg shadow-sm">
-        <div class="font-bold text-purple-700 text-xl mb-3">Q1. Supabaseという聞いたことのない海外サービスにデータを預けて信用できるのか？有名企業の導入実績はあるのか？</div>
-        <div class="text-slate-700 leading-relaxed">
-            「ご懸念はもっともですが、システムの中身と保管場所は<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">『世界で最も実績のある技術』</span>で構成されています。理由は2点です。<br><br>
-            第一に、実際の物理的なデータの保管場所は『AmazonのAWS（エーダブリューエス）』というクラウドサーバーを使っています。これは、トヨタ自動車やソニー、パナソニックといった日本の大手製造業の基幹システムでも当たり前のように使われている、世界で最も堅牢なサーバーです。<br><br>
-            第二に、Supabaseの中身（データベースのエンジン）は『PostgreSQL（ポストグレス・キューエル）』という技術が使われています。これは30年以上の歴史がある世界標準のデータベースである上に、Supabase自体も<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">世界で最も厳しいクラウド安全基準（SOC2（ソックツー））をクリア</span>しており、客観的にも強固な安全性が証明されています。<br><br>
+    <div class="qa-box">
+        <div class="question">Q1. Supabaseという聞いたことのない海外サービスにデータを預けて信用できるのか？有名企業の導入実績はあるのか？</div>
+        <div>
+            「ご懸念はもっともですが、システムの中身と保管場所は<strong>『世界で最も実績のある技術』</strong>で構成されています。理由は2点です。<br><br>
+            第一に、実際の物理的なデータの保管場所は『AmazonのAWS（エーダブリューエス）』というクラウドサーバーを使っています。これは、<strong>トヨタ自動車やソニー、パナソニックといった日本の大手製造業の基幹システム</strong>でも当たり前のように使われている、世界で最も堅牢なサーバーです。<br><br>
+            第二に、Supabaseの中身（データベースのエンジン）は『PostgreSQL（ポストグレス・キューエル）』という技術が使われています。これは30年以上の歴史がある世界標準のデータベースである上に、Supabase自体も<strong>世界で最も厳しいクラウド安全基準（SOC2（ソックツー））をクリア</strong>しており、客観的にも強固な安全性が証明されています。<br><br>
             つまり、名前こそ新しいですが、中身は『トヨタが使っているのと同じ強固な部品』と『国際基準のセキュリティ』を組み合わせて作られているため、当社の業務データを預けても全く問題ありません。」
         </div>
     </div>
 
-    <div class="bg-purple-50 border border-purple-100 border-l-8 border-purple-500 p-6 mb-6 rounded-lg shadow-sm">
-        <div class="font-bold text-purple-700 text-xl mb-3">Q2. 全員にアカウントを作ったら、結局ユーザーごとの課金で高くなるのでは？</div>
-        <div class="text-slate-700 leading-relaxed">
-            「ご安心ください。<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">『5万人』までは何人アカウントを作っても追加費用はゼロ</span>です。<br>
+    <div class="qa-box">
+        <div class="question">Q2. 全員にアカウントを作ったら、結局ユーザーごとの課金で高くなるのでは？</div>
+        <div>
+            「ご安心ください。<strong>『5万人』までは何人アカウントを作っても追加費用はゼロ</strong>です。<br>
             ファイルメーカーは『使う人の数』でお金を取るモデルでしたが、今回は『通信の量』でお金を取るモデルです。そのため、全社員やパートさんに1人1つ専用アカウントを無料で配り放題になります。」
         </div>
     </div>
 
-    <div class="bg-purple-50 border border-purple-100 border-l-8 border-purple-500 p-6 mb-6 rounded-lg shadow-sm">
-        <div class="font-bold text-purple-700 text-xl mb-3">Q3. Webシステムになると『あなたしか直せない（属人化）』にならないか？</div>
-        <div class="text-slate-700 leading-relaxed">
+    <div class="qa-box">
+        <div class="question">Q3. Webシステムになると『あなたしか直せない（属人化）』にならないか？</div>
+        <div>
             「むしろ、将来的な人材確保の面では今回の方が有利です。<br>
-            ファイルメーカーは独自のスキルが必要ですが、今回採用した技術は<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">IT業界の世界標準</span>です。万が一私が不在になっても、一般的なWeb技術者であれば誰でも引き継ぎができるため、会社としての技術的リスクは下がります。」
+            ファイルメーカーは独自のスキルが必要ですが、今回採用した技術は<strong>IT業界の世界標準</strong>です。万が一私が不在になっても、一般的なWeb技術者であれば誰でも引き継ぎができるため、会社としての技術的リスクは下がります。」
         </div>
     </div>
 
-    <div class="bg-purple-50 border border-purple-100 border-l-8 border-purple-500 p-6 mb-10 rounded-lg shadow-sm">
-        <div class="font-bold text-purple-700 text-xl mb-3">Q4. 万が一クラウドが壊れた時のバックアップはどうなっているのか？</div>
-        <div class="text-slate-700 leading-relaxed">
-            「万が一のクラウド障害に備えた<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">『BCP対策』</span>も構築可能です。<br>
+    <div class="qa-box">
+        <div class="question">Q4. 万が一クラウドが壊れた時のバックアップはどうなっているのか？</div>
+        <div>
+            「万が一のクラウド障害に備えた<strong>『BCP対策』</strong>も構築可能です。<br>
             毎日深夜に全データを自動で標準的な文字データ（CSV）に変換し、当社のGoogleドライブへ暗号化して自動保存する仕組みを用意します。手元のGoogleドライブのデータからすぐに業務を再開できる二重の安全網を張っています。」
         </div>
     </div>
 
 
-    <h2 id="glossary" class="text-xl sm:text-2xl font-bold text-slate-800 border-l-8 border-blue-500 pl-4 mt-16 bg-blue-50 py-3 rounded-r-lg shadow-sm mb-6">
-        📖 3. とっさの専門用語・解説リスト
-    </h2>
+    <h2 id="glossary">📖 3. とっさの専門用語・解説リスト</h2>
 
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-5 rounded-lg shadow-sm">
-        <span class="font-bold text-blue-700 text-lg mb-2 block">■ フロントエンド（画面）とデータベース</span>
-        「フロントエンドは<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">『接客窓口』</span>、データベースは<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">『奥の金庫』</span>と考えてください。今回は窓口（画面）を普通のWebサイトとして切り離したため、少し使うだけの人に高額な専用ソフトを買わせる必要がなくなりました。」
+    <div class="term-box">
+        <span class="term-title">■ フロントエンド（画面）とデータベース</span>
+        「フロントエンドは<strong>『接客窓口』</strong>、データベースは<strong>『奥の金庫』</strong>と考えてください。今回は窓口（画面）を普通のWebサイトとして切り離したため、少し使うだけの人に高額な専用ソフトを買わせる必要がなくなりました。」
     </div>
 
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-5 rounded-lg shadow-sm">
-        <span class="font-bold text-blue-700 text-lg mb-2 block">■ AWS（Amazon Web Services）</span>
-        「Amazonが提供している、世界で一番巨大で安全な『インターネット上の金庫番（サーバー貸し出し）』です。<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">トヨタ自動車や日本のデジタル庁、メガバンクも軒並みこのAmazonのインフラを使っています。</span>」
+    <div class="term-box">
+        <span class="term-title">■ AWS（Amazon Web Services）</span>
+        「Amazonが提供している、世界で一番巨大で安全な『インターネット上の金庫番（サーバー貸し出し）』です。<strong>トヨタ自動車や日本のデジタル庁、メガバンクも軒並みこのAmazonのインフラを使っています。</strong>」
     </div>
 
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-5 rounded-lg shadow-sm">
-        <span class="font-bold text-blue-700 text-lg mb-2 block">■ PostgreSQL（ポストグレス・キューエル）</span>
-        「Supabaseの中で動いている『データベースのエンジン部分』です。世界で最も信頼されているオープンソース技術の1つで、<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">30年以上の歴史があり、世界中のインフラを支えています。</span>」
+    <div class="term-box">
+        <span class="term-title">■ PostgreSQL（ポストグレス・キューエル）</span>
+        「Supabaseの中で動いている『データベースのエンジン部分』です。世界で最も信頼されているオープンソース技術の1つで、<strong>30年以上の歴史があり、世界中のインフラを支えています。</strong>」
     </div>
 
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-5 rounded-lg shadow-sm">
-        <span class="font-bold text-blue-700 text-lg mb-2 block">■ オープンソース</span>
-        「ソフトウェアの設計図がインターネット上に無料で公開されている仕組みです。<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">『クックパッドに公開されている世界中で大人気のレシピ』</span>のようなもので、世界中の天才エンジニアが監視・改良しているため、密室で作るシステムより安全性が高いです。」
+    <div class="term-box">
+        <span class="term-title">■ オープンソース</span>
+        「ソフトウェアの設計図がインターネット上に無料で公開されている仕組みです。<strong>『クックパッドに公開されている世界中で大人気のレシピ』</strong>のようなもので、世界中の天才エンジニアが監視・改良しているため、密室で作るシステムより安全性が高いです。」
     </div>
 
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-5 rounded-lg shadow-sm">
-        <span class="font-bold text-blue-700 text-lg mb-2 block">■ ベンダーロックイン</span>
-        「<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">『データが人質に取られている状態』</span>のことです。独自のソフトがないと過去のデータが見られない状態だと、急な値上げにも従うしかありません。今回の最大の目的はこの人質状態からの脱却です。」
+    <div class="term-box">
+        <span class="term-title">■ ベンダーロックイン</span>
+        「<strong>『データが人質に取られている状態』</strong>のことです。独自のソフトがないと過去のデータが見られない状態だと、急な値上げにも従うしかありません。今回の最大の目的はこの人質状態からの脱却です。」
     </div>
 
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-5 rounded-lg shadow-sm">
-        <span class="font-bold text-blue-700 text-lg mb-2 block">■ CSVファイル</span>
-        「データ移行やバックアップで使う<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">『すっぴんの文字データ』</span>です。Excelのような色や罫線のお化粧がないため容量が圧倒的に軽く、どんなシステムにも確実に引っ越しができる最強のデータ形式です。」
+    <div class="term-box">
+        <span class="term-title">■ CSVファイル</span>
+        「データ移行やバックアップで使う<strong>『すっぴんの文字データ』</strong>です。Excelのような色や罫線のお化粧がないため容量が圧倒的に軽く、どんなシステムにも確実に引っ越しができる最強のデータ形式です。」
     </div>
 
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-5 rounded-lg shadow-sm">
-        <span class="font-bold text-blue-700 text-lg mb-2 block">■ BCP対策（事業継続計画）</span>
-        「万が一の大規模災害やシステム障害が起きた際に、<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">会社の大事な業務を止めない、あるいはすぐに復旧させるための『備え』</span>のことです。今回は、万が一システム本体が停止しても、手元のGoogleドライブに保存したバックアップデータから業務を継続・復旧できる仕組みをBCP対策としています。」
+    <div class="term-box">
+        <span class="term-title">■ BCP対策（事業継続計画）</span>
+        「万が一の大規模災害やシステム障害が起きた際に、<strong>会社の大事な業務を止めない、あるいはすぐに復旧させるための『備え』</strong>のことです。今回は、万が一システム本体が停止しても、手元のGoogleドライブに保存したバックアップデータから業務を継続・復旧できる仕組みをBCP対策としています。」
     </div>
 
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-10 rounded-lg shadow-sm">
-        <span class="font-bold text-blue-700 text-lg mb-2 block">■ Supabaseの無料版と有料版の違い</span>
-        「現在テスト中の『無料版』は、<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">データ容量500MB、月間通信量5GB</span>という制限があり、1週間アクセスがないと自動でスリープ（一時停止）してしまいます。<br>
-        本格運用時に月額約4,000円（$25）の『有料版（Proプラン）』にするだけで、<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">データ容量8GB、月間通信量250GBへと大幅に拡張され、スリープ機能の解除、毎日自動バックアップ</span>が付きます。<br><br>
-        ※テキストデータ（文字情報）中心であれば、<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">無料版の500MBでも『50万件の業務データ』を余裕で保存可能</span>です。有料版の8GBになれば『数百万〜1000万件規模』となり、画像・動画を大量に保存しない限り、中小企業の業務データとしては事実上使い切れないほどの十分な容量があります。」
+    <div class="term-box">
+        <span class="term-title">■ Supabaseの無料版と有料版の違い</span>
+        「現在テスト中の『無料版』は、<strong>データ容量500MB、月間通信量5GB</strong>という制限があり、1週間アクセスがないと自動でスリープ（一時停止）してしまいます。<br>
+        本格運用時に月額約4,000円（$25）の『有料版（Proプラン）』にするだけで、<strong>データ容量8GB、月間通信量250GBへと大幅に拡張され、スリープ機能の解除、毎日自動バックアップ</strong>が付きます。<br><br>
+        ※テキストデータ（文字情報）中心であれば、<strong>無料版の500MBでも『50万件の業務データ』を余裕で保存可能</strong>です。有料版の8GBになれば『数百万〜1000万件規模』となり、画像・動画を大量に保存しない限り、中小企業の業務データとしては事実上使い切れないほどの十分な容量があります。」
     </div>
 
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-5 rounded-lg shadow-sm">
-        <span class="font-bold text-blue-700 text-lg mb-2 block">■ SOC2（ソックツー / クラウド安全基準）</span>
-        「アメリカ公認会計士協会が定めた、<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">『このシステムは機密情報を預けても絶対に安全か』を審査する、世界で最も厳しい国際認証</span>の一つです。Supabaseはこの審査をクリアしているため、第三者機関からも安全性が客観的に証明されています。」
+    <div class="term-box">
+        <span class="term-title">■ SOC2（ソックツー / クラウド安全基準）</span>
+        「アメリカ公認会計士協会が定めた、<strong>『このシステムは機密情報を預けても絶対に安全か』を審査する、世界で最も厳しい国際認証</strong>の一つです。Supabaseはこの審査をクリアしているため、第三者機関からも安全性が客観的に証明されています。」
     </div>
 
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-5 rounded-lg shadow-sm">
-        <span class="font-bold text-blue-700 text-lg mb-2 block">■ PwC（ピーダブリューシー / 世界最大級の監査法人）</span>
-        「世界四大監査法人の一つで、超巨大コンサルティング企業です。<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">他社の極秘の財務データや買収（M&A）情報を扱うような、セキュリティに最も厳しい世界的企業</span>も、自社のシステムとしてSupabaseを安全だと認めて導入している、という究極の説得材料として用意しています。」
+    <div class="term-box">
+        <span class="term-title">■ PwC（ピーダブリューシー / 世界最大級の監査法人）</span>
+        「世界四大監査法人の一つで、超巨大コンサルティング企業です。<strong>他社の極秘の財務データや買収（M&A）情報を扱うような、セキュリティに最も厳しい世界的企業</strong>も、自社のシステムとしてSupabaseを安全だと認めて導入している、という究極の説得材料として用意しています。」
     </div>
-</div>
 
 </body>
 </html>
