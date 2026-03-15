@@ -4,146 +4,249 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>【プレゼン用カンペ】ファイルメーカー ➔ Supabase移行</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 自分用カンペのためのシンプルなスタイル（ダークモード） */
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: sans-serif;
+            line-height: 1.6;
+            font-size: 18px; /* 大きめのフォント */
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #ffffff;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #66b3ff;
+            margin-top: 50px;
+            border-left: 5px solid #66b3ff;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #ffaa00;
+            margin-top: 30px;
+            border-bottom: 1px dashed #444;
+            padding-bottom: 5px;
+        }
+        nav {
+            background-color: #1e1e1e;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+            position: sticky;
+            top: 0;
+        }
+        a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-right: 20px;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+            color: #66b3ff;
+        }
+        /* ト書き（行動指示）用のスタイル */
+        .direction {
+            background-color: #332b00;
+            color: #ffcc00;
+            padding: 10px;
+            margin: 20px 0 10px 0;
+            border-left: 5px solid #ffcc00;
+            font-weight: bold;
+        }
+        /* セリフ・本文用のスタイル */
+        .speech {
+            background-color: #1e1e1e;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid #4CAF50;
+            border-radius: 3px;
+        }
+        /* Q&A用のスタイル */
+        .qa-box {
+            background-color: #1e1e1e;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #66b3ff;
+            border-radius: 3px;
+        }
+        .question {
+            font-weight: bold;
+            color: #99ccff;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        /* 用語解説用のスタイル */
+        .term-box {
+            background-color: #1e1e1e;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid #4CAF50;
+            border-radius: 3px;
+        }
+        .term-title {
+            font-weight: bold;
+            color: #99ccff;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+        /* 強調文字（赤字） */
+        strong {
+            color: #ffaaaa;
+            background-color: rgba(255, 0, 0, 0.2);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        /* スムーススクロール */
+        html { scroll-behavior: smooth; }
+    </style>
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans leading-relaxed p-4 sm:p-8">
+<body>
 
-<div class="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-2xl shadow-xl">
+    <h1>ファイルメーカー ➔ Supabase移行 プレゼンカンペ</h1>
     
-    <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 text-center pb-4 mb-8 shadow-sm">
-        ファイルメーカー ➔ Supabase移行 プレゼンカンペ
-    </h1>
-    
-    <div class="bg-slate-800 p-4 rounded-xl mb-10 sticky top-4 z-50 shadow-md flex justify-center gap-4 sm:gap-8 flex-wrap">
-        <a href="#script" class="text-white font-bold text-lg hover:text-blue-400 transition-colors">🎤 台本</a>
-        <a href="#qa" class="text-white font-bold text-lg hover:text-blue-400 transition-colors">🛡️ 想定Q&A</a>
-        <a href="#glossary" class="text-white font-bold text-lg hover:text-blue-400 transition-colors">📖 用語解説</a>
-    </div>
+    <nav>
+        <a href="#script">🎤 台本</a>
+        <a href="#qa">🛡️ 想定Q&A</a>
+        <a href="#glossary">📖 用語解説</a>
+    </nav>
 
-    <h2 id="script" class="text-xl sm:text-2xl font-bold text-slate-800 border-l-8 border-blue-500 pl-4 mt-12 bg-blue-50 py-3 rounded-r-lg shadow-sm">
-        🎤 1. プレゼン台本
-    </h2>
+    <h2 id="script">🎤 1. プレゼン台本</h2>
 
-    <div class="bg-yellow-100 border-l-8 border-yellow-400 p-4 font-bold mb-4 mt-6 rounded-md text-yellow-900 shadow-sm">
+    <div class="direction">
         🗣️ 【導入】画面を見せる前にご挨拶
     </div>
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-6 rounded-lg shadow-sm">
-        「本日は、現在社内で利用しているファイルメーカーの業務を、新しいデータベースインフラである『Supabase』へ移行するテスト結果についてご報告します。<br>
-        結論から申し上げますと、この移行によって<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">『劇的なコスト削減』</span>と<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">『現場の作業効率・セキュリティの向上』</span>を同時に実現できます。まずは実際に構築した画面をご覧ください。」
+    <div class="speech">
+        「本日は、現在社内で利用しているファイルメーカーの業務を、新しいデータベースインフラである『Supabase』へ移行をご提案いたします。<br>
+        結論から申し上げますと、この移行によって<strong>『劇的なコスト削減』</strong>と<strong>『現場の作業効率・セキュリティの向上』</strong>を同時に実現できます。まずは実際に構築した画面をご覧ください。」
     </div>
 
-    <div class="bg-yellow-100 border-l-8 border-yellow-400 p-4 font-bold mb-4 rounded-md text-yellow-900 shadow-sm">
+    <div class="direction">
         💻 実際の画面（ブラウザ）をプロジェクターや画面共有で映す
     </div>
 
-    <h3 class="text-lg font-bold text-orange-600 mt-8 border-b border-dashed border-slate-300 pb-2 mb-4">
-        メリット①：脱・専用ソフト（Web化とマルチデバイス）
-    </h3>
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-6 rounded-lg shadow-sm">
+    <h3>メリット①：脱・専用ソフト（Web化とマルチデバイス）</h3>
+    <div class="speech">
         「今ご覧いただいているのは、専用ソフトではなく普通のWebブラウザです。<br>
-        ファイルメーカーの最大のネックは『画面と金庫が一体化』している点でした。そのため、ただ入力・閲覧するだけの現場の作業者にも、専用ソフトをインストールし、1人ずつライセンスを買う必要がありました。<br>
-        今回の新システムは金庫機能に特化しているため、操作画面を純粋なWebサイトとして切り離しました。これにより、<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">社員のスマホや会社のPCなど端末を一切選ばず、URLを共有するだけですぐに業務を開始</span>できます。」
+        ファイルメーカーの最大のネックは『作業画面とデータベースが一体化』している点でした。そのため、ただ入力・閲覧するだけの作業者にも、専用ソフトをインストールし、1人ずつライセンスを契約する必要がありました。<br>
+        今回の新システムはデータベースに特化しているため、操作画面を純粋なWebサイトとして切り離しました。これにより、<strong>社員のスマホや会社のPCなど端末を一切選ばず、URLを共有するだけですぐに業務を開始</strong>できます。」
     </div>
 
-    <h3 class="text-lg font-bold text-orange-600 mt-8 border-b border-dashed border-slate-300 pb-2 mb-4">
-        メリット②：強固なセキュリティ（情報漏洩の防止）
-    </h3>
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-6 rounded-lg shadow-sm">
+    <h3>メリット②：強固なセキュリティ（情報漏洩の防止）</h3>
+    <div class="speech">
         「Web化によってセキュリティも強固になります。<br>
-        専用ソフトと違い、手元のスマホやPCにはデータが一切保存されず、『画面を映しているだけ』になります。万が一、<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">社員が端末を紛失しても機密データが漏洩するリスクはありません。</span> 退職者が出た際も、管理者側でアカウントを無効化すれば一瞬でアクセスを全遮断できます。」
+        専用ソフトと違い、手元のスマホやPCにはデータが一切保存されず、『画面を映しているだけ』になります。万が一、<strong>社員が端末を紛失しても機密データが漏洩するリスクはありません。</strong> 退職者が出た際も、管理者側でアカウントを無効化すれば一瞬でアクセスを全遮断できます。」
     </div>
 
-    <h3 class="text-lg font-bold text-orange-600 mt-8 border-b border-dashed border-slate-300 pb-2 mb-4">
-        メリット③：劇的なコストダウン（ライセンスの呪縛からの解放）
-    </h3>
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-6 rounded-lg shadow-sm">
+    <h3>メリット③：劇的なコストダウン（ライセンスの呪縛からの解放）</h3>
+    <div class="speech">
         「経営視点で最もインパクトが大きいのが『コスト』です。<br>
-        ファイルメーカーはユーザー数課金のため、社員に展開するほど固定費が膨らみます。今回採用したSupabaseは通信量に対するインフラ課金です。<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">アカウント数は無制限（月間10万人まで実質無料）</span>のため、パートさんや閲覧のみの役員にも自由にアカウントを発行できます。将来的に有料プランにしてもプロジェクト全体で月額約4,000円で済むため、IT固定費を劇的に削減できます。」
+        ファイルメーカーはユーザー数課金のため、社員に展開するほど固定費が膨らみます。今回採用したSupabaseは通信量に対するインフラ課金です。<strong>アカウント数は5万人まで実質無料</strong>のため、新入社員が入社した場合、Googleアカウントを発行するだけで自由にアクセスすることが可能です。将来的に有料プランにしてもプロジェクト全体で月額約4,000円で済むため、IT固定費を劇的に削減できます。」
     </div>
 
-    <h3 class="text-lg font-bold text-orange-600 mt-8 border-b border-dashed border-slate-300 pb-2 mb-4">
-        メリット④：将来への安心（データ資産の独立）
-    </h3>
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-6 rounded-lg shadow-sm">
+    <h3>メリット④：将来への安心（データ資産の独立）</h3>
+    <div class="speech">
         「最後に、データの安全性です。独自のシステムに依存し続けると、メーカーの値上げや終了時にデータが『人質』になるリスクがあります。<br>
-        今回のシステムの中身は、世界中で30年以上使われている『世界標準のデータベース』です。万が一の際も、<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">データを汎用的な形式（CSV等）でいつでも取り出せ、他の互換性のあるシステムへそのまま移行</span>できます。『会社の財産であるデータを、特定の1社に縛られずに完全に自社でコントロールできる』のが最大の強みです。」
+        今回のシステムの中身は、世界中で30年以上使われている『世界標準のデータベース』です。万が一の際も、<strong>データを汎用的な形式（CSV等）でいつでも取り出せ、他の互換性のあるシステムへそのまま移行</strong>できます。『会社の財産であるデータを、特定の1社に縛られずに完全に自社でコントロールできる』のが最大の強みです。」
     </div>
 
-    <div class="bg-yellow-100 border-l-8 border-yellow-400 p-4 font-bold mb-4 mt-8 rounded-md text-yellow-900 shadow-sm">
+    <div class="direction">
         🗣️ 【結び】ネクストアクション
     </div>
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-10 rounded-lg shadow-sm">
+    <div class="speech">
         「すでにテスト移行は完了しており、動作スピードにも全く問題がないことを確認しています。まずは一部の業務から試験運用を開始し、問題がなければ、段階的にファイルメーカー業務をこちらの新インフラへ巻き取っていくロードマップをご提案いたします。」
     </div>
 
-    <h2 id="qa" class="text-xl sm:text-2xl font-bold text-slate-800 border-l-8 border-blue-500 pl-4 mt-16 bg-blue-50 py-3 rounded-r-lg shadow-sm mb-6">
-        🛡️ 2. 経営陣からの想定Q&A
-    </h2>
 
-    <div class="bg-purple-50 border border-purple-100 border-l-8 border-purple-500 p-6 mb-6 rounded-lg shadow-sm">
-        <div class="font-bold text-purple-700 text-xl mb-3">Q1. Supabaseという聞いたことのない海外サービスにデータを預けて信用できるのか？</div>
-        <div class="text-slate-700">
+    <h2 id="qa">🛡️ 2. 経営陣からの想定Q&A</h2>
+
+    <div class="qa-box">
+        <div class="question">Q1. Supabaseという聞いたことのない海外サービスにデータを預けて信用できるのか？</div>
+        <div>
             「ご懸念はもっともですが、強固な信用と実績があります。理由は3点です。<br><br>
-            第一に、実際の物理的なデータの保管場所は<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">『AmazonのAWSというクラウドサーバーサービス』</span>を使っています。金融機関と同じ厳重なセキュリティ環境です。<br>
-            第二に、設計図が全世界に公開されている仕組み（オープンソース）のため、不正が物理的にできません。<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">世界で最も厳しいクラウド安全基準（SOC2）</span>をクリアし、PwCなどの大企業も導入しています。<br>
-            第三に、最大の安心材料として<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">『特定のシステムと心中しなくて済む』</span>点です。中身が世界標準技術のため、万が一運営会社が倒産等しても、データベースとして互換性のある別のサービスにすぐに切り替えて業務を継続できます。」
+            第一に、実際の物理的なデータの保管場所は<strong>『AmazonのAWSというクラウドサーバーサービス』</strong>を使っています。日本のメガバンクと同じ厳重なセキュリティ環境です。<br>
+            第二に、設計図が全世界に公開されている仕組み（オープンソース）のため、不正が物理的にできません。世界で最も厳しいクラウド安全基準（SOC2（ソックツー））をクリアし、<strong>マクドナルドやジョンソン・エンド・ジョンソンといった世界的な大企業も自社システムに導入</strong>しています。<br>
+            第三に、最大の安心材料として<strong>『特定のシステムに依存し続けるリスクを完全に防げる』</strong>点です。中身が世界標準技術のため、万が一運営会社が倒産等しても、データベースとして互換性のある別のサービスにすぐに切り替えて業務を継続できます。」
         </div>
     </div>
 
-    <div class="bg-purple-50 border border-purple-100 border-l-8 border-purple-500 p-6 mb-6 rounded-lg shadow-sm">
-        <div class="font-bold text-purple-700 text-xl mb-3">Q2. 全員にアカウントを作ったら、結局ユーザーごとの課金で高くなるのでは？</div>
-        <div class="text-slate-700">
-            「ご安心ください。<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">『月間5万人』までは何人アカウントを作っても追加費用はゼロ</span>です。<br>
+    <div class="qa-box">
+        <div class="question">Q2. 日本の有名企業で導入しているところはあるのか？（Q1の追っかけ質問）</div>
+        <div>
+            「日本国内でも、NOT A HOTEL（ノットアホテル）などの先進的な企業や、多くのITベンチャーがこぞって採用し始めています。<br>
+            歴史の長い日本の伝統的な大企業での『全社導入』といった事例はまだ表に出ていませんが、それには理由があります。Supabaseはここ数年で急激に世界標準になりつつある最新技術だからです。<br>
+            しかし、<strong>システムの土台であるサーバー自体は『Amazon（AWS）』を利用</strong>しているため、実質的なセキュリティレベルは日本の大企業や官公庁が利用しているシステムと全く同等であり、安全性において日本企業に劣ることはありません。」
+        </div>
+    </div>
+
+    <div class="qa-box">
+        <div class="question">Q3. 全員にアカウントを作ったら、結局ユーザーごとの課金で高くなるのでは？</div>
+        <div>
+            「ご安心ください。<strong>『5万人』までは何人アカウントを作っても追加費用はゼロ</strong>です。<br>
             ファイルメーカーは『使う人の数』でお金を取るモデルでしたが、今回は『通信の量』でお金を取るモデルです。そのため、全社員やパートさんに1人1つ専用アカウントを無料で配り放題になります。」
         </div>
     </div>
 
-    <div class="bg-purple-50 border border-purple-100 border-l-8 border-purple-500 p-6 mb-6 rounded-lg shadow-sm">
-        <div class="font-bold text-purple-700 text-xl mb-3">Q3. Webシステムになると『あなたしか直せない（属人化）』にならないか？</div>
-        <div class="text-slate-700">
+    <div class="qa-box">
+        <div class="question">Q4. Webシステムになると『あなたしか直せない（属人化）』にならないか？</div>
+        <div>
             「むしろ、将来的な人材確保の面では今回の方が有利です。<br>
-            ファイルメーカーは独自のスキルが必要ですが、今回採用した技術は<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">IT業界の世界標準</span>です。万が一私が不在になっても、一般的なWeb技術者であれば誰でも引き継ぎができるため、会社としての技術的リスクは下がります。」
+            ファイルメーカーは独自のスキルが必要ですが、今回採用した技術は<strong>IT業界の世界標準</strong>です。万が一私が不在になっても、一般的なWeb技術者であれば誰でも引き継ぎができるため、会社としての技術的リスクは下がります。」
         </div>
     </div>
 
-    <div class="bg-purple-50 border border-purple-100 border-l-8 border-purple-500 p-6 mb-10 rounded-lg shadow-sm">
-        <div class="font-bold text-purple-700 text-xl mb-3">Q4. 万が一クラウドが壊れた時のバックアップはどうなっているのか？</div>
-        <div class="text-slate-700">
-            「万が一のクラウド障害に備えた<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">『BCP対策』</span>も構築可能です。<br>
+    <div class="qa-box">
+        <div class="question">Q5. 万が一クラウドが壊れた時のバックアップはどうなっているのか？</div>
+        <div>
+            「万が一のクラウド障害に備えた<strong>『BCP対策』</strong>も構築可能です。<br>
             毎日深夜に全データを自動で標準的な文字データ（CSV）に変換し、当社のGoogleドライブへ暗号化して自動保存する仕組みを用意します。手元のGoogleドライブのデータからすぐに業務を再開できる二重の安全網を張っています。」
         </div>
     </div>
 
-    <h2 id="glossary" class="text-xl sm:text-2xl font-bold text-slate-800 border-l-8 border-blue-500 pl-4 mt-16 bg-blue-50 py-3 rounded-r-lg shadow-sm mb-6">
-        📖 3. とっさの専門用語・解説リスト
-    </h2>
 
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-5 rounded-lg shadow-sm">
-        <span class="font-bold text-blue-700 text-lg mb-2 block">■ フロントエンド（画面）とデータベース</span>
-        「フロントエンドは<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">『接客窓口』</span>、データベースは<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">『奥の金庫』</span>と考えてください。今回は窓口（画面）を普通のWebサイトとして切り離したため、少し使うだけの人に高額な専用ソフトを買わせる必要がなくなりました。」
+    <h2 id="glossary">📖 3. とっさの専門用語・解説リスト</h2>
+
+    <div class="term-box">
+        <span class="term-title">■ フロントエンド（画面）とデータベース</span>
+        「フロントエンドは<strong>『接客窓口』</strong>、データベースは<strong>『奥の金庫』</strong>と考えてください。今回は窓口（画面）を普通のWebサイトとして切り離したため、少し使うだけの人に高額な専用ソフトを買わせる必要がなくなりました。」
     </div>
 
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-5 rounded-lg shadow-sm">
-        <span class="font-bold text-blue-700 text-lg mb-2 block">■ AWS（Amazon Web Services）</span>
-        「Amazonが提供している、世界で一番巨大で安全な『インターネット上の金庫番（サーバー貸し出し）』です。<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">日本のデジタル庁やメガバンク、大企業も軒並みこのAmazonのインフラを使っています。</span>」
+    <div class="term-box">
+        <span class="term-title">■ AWS（Amazon Web Services）</span>
+        「Amazonが提供している、世界で一番巨大で安全な『インターネット上の金庫番（サーバー貸し出し）』です。<strong>日本のデジタル庁やメガバンク、大企業も軒並みこのAmazonのインフラを使っています。</strong>」
     </div>
 
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-5 rounded-lg shadow-sm">
-        <span class="font-bold text-blue-700 text-lg mb-2 block">■ オープンソース</span>
-        「ソフトウェアの設計図がインターネット上に無料で公開されている仕組みです。<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">『クックパッドに公開されている世界中で大人気のレシピ』</span>のようなもので、世界中の天才エンジニアが監視・改良しているため、密室で作るシステムより安全性が高いです。」
+    <div class="term-box">
+        <span class="term-title">■ オープンソース</span>
+        「ソフトウェアの設計図がインターネット上に無料で公開されている仕組みです。<strong>『クックパッドに公開されている世界中で大人気のレシピ』</strong>のようなもので、世界中の天才エンジニアが監視・改良しているため、密室で作るシステムより安全性が高いです。」
     </div>
 
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-5 rounded-lg shadow-sm">
-        <span class="font-bold text-blue-700 text-lg mb-2 block">■ ベンダーロックイン</span>
-        「<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">『データが人質に取られている状態』</span>のことです。独自のソフトがないと過去のデータが見られない状態だと、急な値上げにも従うしかありません。今回の最大の目的はこの人質状態からの脱却です。」
+    <div class="term-box">
+        <span class="term-title">■ ベンダーロックイン</span>
+        「<strong>『データが人質に取られている状態』</strong>のことです。独自のソフトがないと過去のデータが見られない状態だと、急な値上げにも従うしかありません。今回の最大の目的はこの人質状態からの脱却です。」
     </div>
 
-    <div class="bg-slate-50 border border-slate-200 border-l-8 border-green-500 p-5 mb-5 rounded-lg shadow-sm">
-        <span class="font-bold text-blue-700 text-lg mb-2 block">■ CSVファイル</span>
-        「データ移行やバックアップで使う<span class="font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded">『すっぴんの文字データ』</span>です。Excelのような色や罫線のお化粧がないため容量が圧倒的に軽く、どんなシステムにも確実に引っ越しができる最強のデータ形式です。」
+    <div class="term-box">
+        <span class="term-title">■ CSVファイル</span>
+        「データ移行やバックアップで使う<strong>『すっぴんの文字データ』</strong>です。Excelのような色や罫線のお化粧がないため容量が圧倒的に軽く、どんなシステムにも確実に引っ越しができる最強のデータ形式です。」
     </div>
 
-</div>
+    <div class="term-box">
+        <span class="term-title">■ マクドナルド、ジョンソン・エンド・ジョンソンなど</span>
+        「Supabaseを実際に導入している世界的な大企業の例です。<strong>誰もが知る大企業も、このシステムを安全だと認めて使っている</strong>、という説得材料として名前を出しています。（IT業界ではパスワード管理大手の1Password等も導入しています）」
+    </div>
+
+    <div class="term-box">
+        <span class="term-title">■ PwC（ピーダブリューシー / プライスウォーターハウスクーパース）</span>
+        「世界最大級のコンサルティング・監査法人です。<strong>他社の極秘の財務データを扱うような、セキュリティに最も厳しい企業もこのシステムを安全だと認めて使っている</strong>、という説得材料として補足できるように載せています。」
+    </div>
 
 </body>
 </html>
