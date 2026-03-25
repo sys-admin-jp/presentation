@@ -116,6 +116,41 @@
         }
         /* スムーススクロール */
         html { scroll-behavior: smooth; }
+
+        /* タブ切り替え用のスタイル */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .tab-button {
+            background-color: #333;
+            color: #ffffff;
+            border: 1px solid #555;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        .tab-button:hover {
+            background-color: #444;
+        }
+        .tab-button.active {
+            background-color: #66b3ff;
+            color: #121212;
+            border-color: #66b3ff;
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -193,49 +228,123 @@
 
     <h2 id="qa">🛡️ 2. 経営陣からの想定Q&A</h2>
 
-    <div class="qa-box">
-        <div class="question">Q1. Supabaseという聞いたことのない海外サービスにデータを預けて信用できるのか？有名企業の導入実績はあるのか？</div>
-        <div>
-            「ご懸念はもっともですが、すでに世界的な大企業も導入しており、システムの中身も『世界で最も実績のある技術』で構成されています。信用できる理由は以下の3点です。<br><br>
-            第一に、<strong>海外・国内の圧倒的な導入実績</strong>です。セキュリティに極めて厳しい世界最大級の監査法人<strong>『PwC』</strong>や、世界的ヘルスケア企業の<strong>『ジョンソン・エンド・ジョンソン』</strong>が自社システムに導入しているほか、国内でも<strong>『NOT A HOTEL（ノットアホテル）』</strong>などの先進的な企業がこぞって採用を始めています。<br><br>
-            第二に、データの物理的な保管場所は<strong>『AmazonのAWS』</strong>を使っています。これは、トヨタ自動車やソニー、パナソニックといった日本の大手製造業の基幹システムでも当たり前のように使われている、世界で最も堅牢なサーバーです。<br><br>
-            第三に、データベースの中身は30年以上の歴史がある世界標準技術『PostgreSQL』が使われており、Supabase自体も<strong>世界で最も厳しいクラウド安全基準（SOC2（ソックツー））をクリア</strong>しています。<br><br>
-            つまり、外側の名前こそ新しいですが、すでに『PwCやジョンソン・エンド・ジョンソンが認めた国際基準のセキュリティ』と『トヨタと同じ強固なサーバー』の組み合わせで作られているため、当社の業務データを預けても全く問題ありません。」
+    <div class="tabs">
+        <button class="tab-button active" onclick="openTab(event, 'qa-cost')">💰 コスト・契約</button>
+        <button class="tab-button" onclick="openTab(event, 'qa-security')">🛡️ セキュリティ・データ</button>
+        <button class="tab-button" onclick="openTab(event, 'qa-tech')">⚙️ 運用・移行</button>
+        <button class="tab-button" onclick="openTab(event, 'qa-basic')">❓ 基本的な疑問</button>
+    </div>
+
+    <!-- 💰 コスト・契約タブ -->
+    <div id="qa-cost" class="tab-content" style="display: block;">
+        <div class="qa-box">
+            <div class="question">Q. 全員にアカウントを作ったら、結局ユーザーごとの課金で高くなるのでは？</div>
+            <div>
+                「ご安心ください。<strong>『5万人』までは何人アカウントを作っても追加費用はゼロ</strong>です。<br>
+                ファイルメーカーは『使う人の数』でお金を取るモデルでしたが、今回は『通信の量』でお金を取るモデルです。そのため、全社員やパートさんに1人1つ専用アカウントを無料で配り放題になります。」
+            </div>
+        </div>
+
+        <div class="qa-box">
+            <div class="question">Q. 海外サービス特有の「突然の値上げ」があったらどうするのか？</div>
+            <div>
+                「先ほどもご説明した通り、値上げのリスクは常に想定していますが、<strong>『中身が世界標準の技術』であるため、最悪の場合は他のサービスへ逃げることができます。</strong><br>
+                ファイルメーカーのように『そのソフトがないとデータが見られない』という人質状態ではないため、理不尽な価格改定があれば、データを持ってAWSなどの他社の安価なインフラへすぐに引っ越せる体制を整えています。」
+            </div>
+        </div>
+
+        <div class="qa-box">
+            <div class="question">Q. Webシステムを動かすための「サーバー代」は別でかからないのか？</div>
+            <div>
+                「かかりません。今回は画面を表示する裏側の仕組み（GAS）に、当社がすでに利用しているGoogleの標準インフラをそのまま活用する設計にしています。<br>
+                Googleの強固なシステムを『画面用の無料サーバー』として賢く利用するため、別途Webサーバーを契約するような維持費は『完全にゼロ』で運用できます。」
+            </div>
+        </div>
+
+        <div class="qa-box">
+            <div class="question">Q. 海外サービスなので支払いはドル建てになると思うが、為替変動のリスクはどの程度か？</div>
+            <div>
+                「おっしゃる通りドル建て（月額$25）の決済となります。ただし、元の金額が約4,000円と非常に安価なため、仮に急激な円安が進んだとしても影響は月数百円程度に収まります。<br>
+                現状のファイルメーカーを全社員に拡大した際の『年間数十万円のコスト増』に比べれば、為替リスクは完全に吸収できる極めて微小な範囲です。」
+            </div>
         </div>
     </div>
 
-    <div class="qa-box">
-        <div class="question">Q2. 全員にアカウントを作ったら、結局ユーザーごとの課金で高くなるのでは？</div>
-        <div>
-            「ご安心ください。<strong>『5万人』までは何人アカウントを作っても追加費用はゼロ</strong>です。<br>
-            ファイルメーカーは『使う人の数』でお金を取るモデルでしたが、今回は『通信の量』でお金を取るモデルです。そのため、全社員やパートさんに1人1つ専用アカウントを無料で配り放題になります。」
+    <!-- 🛡️ セキュリティ・データタブ -->
+    <div id="qa-security" class="tab-content">
+        <div class="qa-box">
+            <div class="question">Q. Supabaseという聞いたことのない海外サービスにデータを預けて信用できるのか？有名企業の導入実績はあるのか？</div>
+            <div>
+                「ご懸念はもっともですが、すでに世界的な大企業も導入しており、システムの中身も『世界で最も実績のある技術』で構成されています。信用できる理由は以下の3点です。<br><br>
+                第一に、<strong>海外・国内の圧倒的な導入実績</strong>です。セキュリティに極めて厳しい世界最大級の監査法人<strong>『PwC』</strong>や、世界的ヘルスケア企業の<strong>『ジョンソン・エンド・ジョンソン』</strong>が自社システムに導入しているほか、国内でも<strong>『NOT A HOTEL（ノットアホテル）』</strong>などの先進的な企業がこぞって採用を始めています。<br><br>
+                第二に、データの物理的な保管場所は<strong>『AmazonのAWS』</strong>を使っています。これは、トヨタ自動車やソニー、パナソニックといった日本の大手製造業の基幹システムでも当たり前のように使われている、世界で最も堅牢なサーバーです。<br><br>
+                第三に、データベースの中身は30年以上の歴史がある世界標準技術『PostgreSQL』が使われており、Supabase自体も<strong>世界で最も厳しいクラウド安全基準（SOC2（ソックツー））をクリア</strong>しています。<br><br>
+                つまり、外側の名前こそ新しいですが、すでに『PwCやジョンソン・エンド・ジョンソンが認めた国際基準のセキュリティ』と『トヨタと同じ強固なサーバー』の組み合わせで作られているため、当社の業務データを預けても全く問題ありません。」
+            </div>
+        </div>
+
+        <div class="qa-box">
+            <div class="question">Q. 万が一クラウドが壊れた時のバックアップはどうなっているのか？</div>
+            <div>
+                「万が一のクラウド障害に備えた<strong>『BCP対策』</strong>も構築可能です。<br>
+                毎日深夜に全データを自動で標準的な文字データ（CSV）に変換し、当社のGoogleドライブへ暗号化して自動保存する仕組みを用意します。手元のGoogleドライブのデータからすぐに業務を再開できる二重の安全網を張っています。」
+            </div>
+        </div>
+
+        <div class="qa-box">
+            <div class="question">Q. 退職した社員のアクセス権限を消し忘れて、外部から見られてしまうリスクはないのか？</div>
+            <div>
+                「今回はGoogle Workspaceのシステムと連動させているため、退職時に会社のGoogleアカウントを停止するだけで、自動的にこちらのシステムにも一切アクセスできなくなります。<br>
+                個別のシステムごとに権限を消す手間がなく、消し忘れによる情報漏洩のリスクを物理的に遮断できます。」
+            </div>
+        </div>
+
+        <div class="qa-box">
+            <div class="question">Q. クラウドサービスということは、Supabaseの運営会社の人間が当社のデータを覗き見できるのではないか？</div>
+            <div>
+                「Supabaseは『SOC2』という非常に厳しい国際セキュリティ基準をクリアしており、内部犯行や不正アクセスを防ぐ強固な監査体制が敷かれています。<br>
+                正当な理由と厳格な承認プロセスなしに運営者が顧客のデータベースにアクセスすることは物理的・制度的に不可能となっており、国内の金融機関と同等レベルの安全性が確保されています。」
+            </div>
         </div>
     </div>
 
-    <div class="qa-box">
-        <div class="question">Q3. 海外サービス特有の「突然の値上げ」があったらどうするのか？（Q2の追っかけ質問）</div>
-        <div>
-            「先ほどもご説明した通り、値上げのリスクは常に想定していますが、<strong>『中身が世界標準の技術』であるため、最悪の場合は他のサービスへ逃げることができます。</strong><br>
-            ファイルメーカーのように『そのソフトがないとデータが見られない』という人質状態ではないため、理不尽な価格改定があれば、データを持ってAWSなどの他社の安価なインフラへすぐに引っ越せる体制を整えています。」
+    <!-- ⚙️ 運用・移行タブ -->
+    <div id="qa-tech" class="tab-content">
+        <div class="qa-box">
+            <div class="question">Q. Webシステムになると『あなたしか直せない（属人化）』にならないか？</div>
+            <div>
+                「むしろ、将来的な人材確保の面では今回の方が有利です。<br>
+                ファイルメーカーは独自のスキルが必要ですが、今回採用した技術は<strong>IT業界の世界標準</strong>です。万が一私が不在になっても、一般的なWeb技術者であれば誰でも引き継ぎができるため、会社としての技術的リスクは下がります。」
+            </div>
+        </div>
+
+        <div class="qa-box">
+            <div class="question">Q. 現在のファイルメーカーの過去データは、本当に欠損なく全て移せるのか？</div>
+            <div>
+                「はい、可能です。ファイルメーカーのデータを一度CSVという標準的な文字データで書き出し、それをそのままSupabaseに流し込むことで、過去の蓄積データを1件残らず移行できます。<br>
+                既にバックグラウンドでの移行テストを実施し、文字化けやデータの欠損がないことを確認済みです。」
+            </div>
+        </div>
+
+        <div class="qa-box">
+            <div class="question">Q. 新しいシステムになると、現場の作業員が操作に戸惑って業務が停滞しないか？</div>
+            <div>
+                「ご安心ください。新しい画面は、今のファイルメーカーの使い勝手をベースにしつつ、Webならではのより直感的な操作ができるよう設計しています。<br>
+                いきなり全社で切り替えるのではなく、まずは一部の業務でテスト運用（並行稼働）を行い、現場の声を反映して微調整を重ねてから本格稼働するため、現場の混乱を未然に防ぎます。」
+            </div>
         </div>
     </div>
 
-    <div class="qa-box">
-        <div class="question">Q4. Webシステムになると『あなたしか直せない（属人化）』にならないか？</div>
-        <div>
-            「むしろ、将来的な人材確保の面では今回の方が有利です。<br>
-            ファイルメーカーは独自のスキルが必要ですが、今回採用した技術は<strong>IT業界の世界標準</strong>です。万が一私が不在になっても、一般的なWeb技術者であれば誰でも引き継ぎができるため、会社としての技術的リスクは下がります。」
+    <!-- ❓ 基本的な疑問タブ -->
+    <div id="qa-basic" class="tab-content">
+        <div class="qa-box">
+            <div class="question">Q. 「Webサイト（Webアプリ）になる」とは、具体的にどういうことか？</div>
+            <div>
+                「専用ソフトをパソコンに入れる必要がなくなり、YahooやAmazonを見るのと同じように、インターネットのURLを開くだけで使えるシステムになるということです。<br>
+                会社のPCでも個人のスマホでも利用でき、常に全員が最新のシステムを使える状態になるため、システム管理の手間が事実上ゼロになります。」
+            </div>
         </div>
     </div>
-
-    <div class="qa-box">
-        <div class="question">Q5. 万が一クラウドが壊れた時のバックアップはどうなっているのか？</div>
-        <div>
-            「万が一のクラウド障害に備えた<strong>『BCP対策』</strong>も構築可能です。<br>
-            毎日深夜に全データを自動で標準的な文字データ（CSV）に変換し、当社のGoogleドライブへ暗号化して自動保存する仕組みを用意します。手元のGoogleドライブのデータからすぐに業務を再開できる二重の安全網を張っています。」
-        </div>
-    </div>
-
 
     <h2 id="glossary">📖 3. とっさの専門用語・解説リスト</h2>
 
@@ -327,5 +436,25 @@
         </div>
     </div>
 
+    <script>
+        function openTab(evt, tabName) {
+            // 全てのタブコンテンツを非表示にする
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            
+            // 全てのタブボタンから "active" クラスを削除する
+            tablinks = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            
+            // 選択されたタブを表示し、クリックされたボタンに "active" クラスを追加する
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
 </body>
 </html>
