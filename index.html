@@ -7,59 +7,85 @@
     <style>
         /* 自分用カンペのためのシンプルなスタイル（ダークモード・高コントラスト） */
         body {
-            background-color: #121212; /* 暗い背景 */
-            color: #ffffff; /* 基本の文字色を真っ白に（明るめ） */
+            background-color: #121212;
+            color: #ffffff;
             font-family: sans-serif;
             line-height: 1.6;
-            font-size: 18px; /* 大きめのフォント */
+            font-size: 18px;
             max-width: 900px;
             margin: 0 auto;
             padding: 20px;
+            padding-top: 80px; /* 固定ヘッダー用の余白 */
         }
         h1 {
             color: #ffffff;
             border-bottom: 2px solid #444;
             padding-bottom: 10px;
+            margin-top: 0;
         }
         h2 {
-            color: #66b3ff; /* 明るい青 */
-            margin-top: 50px;
+            color: #66b3ff;
+            margin-top: 30px;
             border-left: 5px solid #66b3ff;
             padding-left: 10px;
         }
         h3 {
-            color: #ffcc00; /* 明るいオレンジ・黄色 */
+            color: #ffcc00;
             margin-top: 30px;
             border-bottom: 1px dashed #555;
             padding-bottom: 5px;
         }
-        nav {
+        
+        /* 大項目ナビゲーション（固定ヘッダー） */
+        .main-nav {
             background-color: #1e1e1e;
-            padding: 15px;
-            margin-bottom: 30px;
-            border-radius: 5px;
-            position: sticky;
+            padding: 10px 15px;
+            border-radius: 0 0 8px 8px;
+            position: fixed;
             top: 0;
-            z-index: 100;
-            border: 1px solid #333;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 2px solid #333;
             display: flex;
-            flex-wrap: wrap;
+            justify-content: center;
             gap: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
         }
-        a {
-            color: #ffffff;
-            text-decoration: none;
-            margin-right: 10px;
+        .main-nav-btn {
+            background-color: transparent;
+            color: #aaa;
+            border: 2px solid transparent;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
             font-weight: bold;
+            font-size: 18px;
+            transition: all 0.2s;
         }
-        a:hover {
-            text-decoration: underline;
+        .main-nav-btn:hover {
+            color: #ffffff;
+            background-color: #333;
+        }
+        .main-nav-btn.active {
             color: #66b3ff;
+            border-bottom: 2px solid #66b3ff;
+            background-color: #2a2a2a;
         }
+
+        /* セクション管理 */
+        .main-section {
+            display: none;
+            animation: fadeIn 0.4s;
+        }
+        .main-section.active {
+            display: block;
+        }
+
         /* ト書き（行動指示）用のスタイル */
         .direction {
             background-color: #2b2400;
-            color: #ffdd55; /* 明るい黄色 */
+            color: #ffdd55;
             padding: 10px;
             margin: 20px 0 10px 0;
             border-left: 5px solid #ffcc00;
@@ -70,7 +96,7 @@
             background-color: #1e1e1e;
             padding: 15px;
             margin-bottom: 20px;
-            border-left: 5px solid #4CAF50; /* 明るい緑 */
+            border-left: 5px solid #4CAF50;
             border-radius: 3px;
         }
         /* 特別な警告・リスク説明用のスタイル */
@@ -78,9 +104,10 @@
             background-color: #2a1b1b;
             padding: 15px;
             margin-bottom: 20px;
-            border-left: 5px solid #ff5555; /* 明るい赤 */
+            border-left: 5px solid #ff5555;
             border-radius: 3px;
         }
+        
         /* Q&A用のスタイル */
         .qa-box {
             background-color: #1e1e1e;
@@ -91,10 +118,11 @@
         }
         .question {
             font-weight: bold;
-            color: #99ccff; /* より明るい水色 */
+            color: #99ccff;
             font-size: 1.2em;
             margin-bottom: 10px;
         }
+        
         /* 用語解説用のスタイル */
         .term-box {
             background-color: #1e1e1e;
@@ -105,48 +133,45 @@
         }
         .term-title {
             font-weight: bold;
-            color: #81c784; /* 明るい緑 */
+            color: #81c784;
             display: block;
             margin-bottom: 5px;
             font-size: 1.1em;
         }
-        /* 強調文字（文字色のみ・明るい黄色） */
-        strong {
-            color: #ffee00; 
-        }
-        /* スムーススクロール */
-        html { scroll-behavior: smooth; }
-
-        /* タブ切り替え用のスタイル */
-        .tabs {
+        
+        strong { color: #ffee00; }
+        
+        /* サブタブ切り替え用のスタイル（Q&A内） */
+        .sub-tabs {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
             margin-bottom: 20px;
+            margin-top: 20px;
         }
-        .tab-button {
+        .sub-tab-btn {
             background-color: #333;
             color: #ffffff;
             border: 1px solid #555;
-            padding: 12px 20px;
+            padding: 10px 15px;
             cursor: pointer;
             border-radius: 5px;
             font-weight: bold;
             font-size: 16px;
             transition: all 0.2s;
         }
-        .tab-button:hover {
-            background-color: #444;
-        }
-        .tab-button.active {
+        .sub-tab-btn:hover { background-color: #444; }
+        .sub-tab-btn.active {
             background-color: #66b3ff;
             color: #121212;
             border-color: #66b3ff;
         }
-        .tab-content {
+        .sub-tab-content {
             display: none;
             animation: fadeIn 0.4s;
         }
+        .sub-tab-content.active { display: block; }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
@@ -155,305 +180,360 @@
 </head>
 <body>
 
-    <h1>ファイルメーカー ➔ Supabase移行 プレゼンカンペ</h1>
-    
-    <nav>
-        <a href="#script">🎤 1. 台本</a>
-        <a href="#qa">🛡️ 2. 想定Q&A</a>
-        <a href="#glossary">📖 3. 用語解説</a>
-        <a href="#appendix">📊 4. 補足資料（表の解説）</a>
+    <!-- 常に画面上部に固定される大項目ナビゲーション -->
+    <nav class="main-nav">
+        <button class="main-nav-btn active" onclick="switchMainSection(event, 'sec-script')">🎤 1. 台本</button>
+        <button class="main-nav-btn" onclick="switchMainSection(event, 'sec-qa')">🛡️ 2. 想定Q&A</button>
+        <button class="main-nav-btn" onclick="switchMainSection(event, 'sec-glossary')">📖 3. 用語解説</button>
+        <button class="main-nav-btn" onclick="switchMainSection(event, 'sec-appendix')">📊 4. 補足資料</button>
     </nav>
 
-    <h2 id="script">🎤 1. プレゼン台本</h2>
+    <!-- ==============================================
+         🎤 1. 台本セクション（初期表示）
+    =============================================== -->
+    <div id="sec-script" class="main-section active">
+        <h1>🎤 プレゼン台本</h1>
 
-    <div class="direction">
-        🗣️ 【導入】画面を見せる前にご挨拶
-    </div>
-    <div class="speech">
-        「本日は、現在社内で利用しているファイルメーカーの業務を、新しいデータベースインフラである『Supabase』への移行をご提案いたします。<br>
-        結論から申し上げますと、この移行によって<strong>『劇的なコスト削減』</strong>と<strong>『現場の作業効率・セキュリティの向上』</strong>を同時に実現できます。まずは実際に構築した画面をご覧ください。」
-    </div>
+        <div class="direction">
+            🗣️ 【導入】画面を見せる前にご挨拶
+        </div>
+        <div class="speech">
+            「本日は、現在社内で利用しているファイルメーカーの業務を、新しいデータベースインフラである『Supabase』への移行をご提案いたします。<br>
+            結論から申し上げますと、この移行によって<strong>『劇的なコスト削減』</strong>と<strong>『現場の作業効率・セキュリティの向上』</strong>を同時に実現できます。まずは実際に構築した画面をご覧ください。」
+        </div>
 
-    <div class="direction">
-        💻 実際の画面（ブラウザ）をプロジェクターや画面共有で映す
-    </div>
+        <div class="direction">
+            💻 実際の画面（ブラウザ）をプロジェクターや画面共有で映す
+        </div>
 
-    <h3>メリット①：脱・専用ソフト（Web化とマルチデバイス）</h3>
-    <div class="speech">
-        「今ご覧いただいているのは、専用ソフトではなく普通のWebブラウザです。<br>
-        ファイルメーカーの最大のネックは『作業画面とデータベースが一体化』している点でした。そのため、ただ入力・閲覧するだけの作業者にも、専用ソフトをインストールし、1人ずつライセンスを契約する必要がありました。<br>
-        今回の新システムはデータベースに特化しているため、操作画面を純粋なWebサイトとして切り離しました。これにより、<strong>社員のスマホや会社のPCなど端末を一切選ばず、URLを共有するだけですぐに業務を開始</strong>できます。」
-    </div>
+        <h3>メリット①：脱・専用ソフト（Web化とマルチデバイス）</h3>
+        <div class="speech">
+            「今ご覧いただいているのは、専用ソフトではなく普通のWebブラウザです。<br>
+            ファイルメーカーの最大のネックは『作業画面とデータベースが一体化』している点でした。そのため、ただ入力・閲覧するだけの作業者にも、専用ソフトをインストールし、1人ずつライセンスを契約する必要がありました。<br>
+            今回の新システムはデータベースに特化しているため、操作画面を純粋なWebサイトとして切り離しました。これにより、<strong>社員のスマホや会社のPCなど端末を一切選ばず、URLを共有するだけですぐに業務を開始</strong>できます。」
+        </div>
 
-    <h3>メリット②：強固なセキュリティ（即時のアクセス遮断と金庫の分離）</h3>
-    <div class="speech">
-        「Web化によって、セキュリティリスクを最小限にコントロールできるようになります。<br>
-        万が一、社員がスマホやPCを紛失した場合でも、<strong>管理者側でアカウントを無効化すれば、即座に強制ログアウトされアクセスを全遮断</strong>できます。<br>
-        さらに重要な点として、<strong>裏側にある『Supabase（データベース）』本体には、指定された管理者以外は直接アクセスできない強固な設計</strong>になっています。仮に一般の作業用アカウントが一つ漏洩したとしても、システム全体のデータが丸ごと抜き取られるような致命的な事態を物理的に防ぐことができます。」
-    </div>
+        <h3>メリット②：強固なセキュリティ（即時のアクセス遮断と金庫の分離）</h3>
+        <div class="speech">
+            「Web化によって、セキュリティリスクを最小限にコントロールできるようになります。<br>
+            万が一、社員がスマホやPCを紛失した場合でも、<strong>管理者側でアカウントを無効化すれば、即座に強制ログアウトされアクセスを全遮断</strong>できます。<br>
+            さらに重要な点として、<strong>裏側にある『Supabase（データベース）』本体には、指定された管理者以外は直接アクセスできない強固な設計</strong>になっています。仮に一般の作業用アカウントが一つ漏洩したとしても、システム全体のデータが丸ごと抜き取られるような致命的な事態を物理的に防ぐことができます。」
+        </div>
 
-    <h3>メリット③：劇的なコストダウンと圧倒的なインフラ余裕度</h3>
-    <div class="speech">
-        「こちらのコスト比較表をご覧ください。ファイルメーカーはユーザー数課金のため、現在5ライセンスで運用しているだけでも年額約11万円かかっています。これを全社員43名に展開すると年額約47万円、クラウド版にいたっては約124万円まで固定費が跳ね上がります。<br><br>
-        一方、今回採用したSupabaseは『固定課金』です。本格運用向けの『有料版（Proプラン）』に移行した場合でも、年額は約4万8千円（月額約4,000円）で済みます。つまり、<strong>全社員に展開しても、現在の5ライセンスでの現状維持（11万円）より安くなるという『コストの逆転現象』</strong>が起きます。<br><br>
-        さらに、こちらの『インフラ余裕度』の表をご覧ください。月額4,000円の有料プランに対し、現在のテスト運用実績を当てはめると、<strong>データベース使用率は上限のわずか『0.35%』、通信量に至っては『0.0012%』と、事実上使い切れないほどの圧倒的な余裕</strong>があります。<br><br>
-        最も重要な点として、アカウント数は『5万人（有料版は10万人）』まで追加費用が一切かかりません。将来、新入社員やパートさんが何名増えても、Googleアカウントを発行するだけで自由にアクセス権を配り放題となるため、IT固定費の増大を完全に抑止できます。」
-    </div>
+        <h3>メリット③：劇的なコストダウンと圧倒的なインフラ余裕度</h3>
+        <div class="speech">
+            「こちらのコスト比較表をご覧ください。ファイルメーカーはユーザー数課金のため、現在5ライセンスで運用しているだけでも年額約11万円かかっています。これを全社員43名に展開すると年額約47万円、クラウド版にいたっては約124万円まで固定費が跳ね上がります。<br><br>
+            一方、今回採用したSupabaseは『固定課金』です。本格運用向けの『有料版（Proプラン）』に移行した場合でも、年額は約4万8千円（月額約4,000円）で済みます。つまり、<strong>全社員に展開しても、現在の5ライセンスでの現状維持（11万円）より安くなるという『コストの逆転現象』</strong>が起きます。<br><br>
+            さらに、こちらの『インフラ余裕度』の表をご覧ください。月額4,000円の有料プランに対し、現在のテスト運用実績を当てはめると、<strong>データベース使用率は上限のわずか『0.35%』、通信量に至っては『0.0012%』と、事実上使い切れないほどの圧倒的な余裕</strong>があります。<br><br>
+            最も重要な点として、アカウント数は『5万人（有料版は10万人）』まで追加費用が一切かかりません。将来、新入社員やパートさんが何名増えても、Googleアカウントを発行するだけで自由にアクセス権を配り放題となるため、IT固定費の増大を完全に抑止できます。」
+        </div>
 
-    <h3>⚠️ 懸念事項：将来の料金改定リスクと「究極の防衛策」</h3>
-    <div class="speech-risk">
-        「一方で、経営的視点から<strong>『将来の料金改定リスク』</strong>についても正直にお伝えしておきます。<br>
-        昨今のクラウド業界では、他社サービスにおいて無料枠の廃止や実質的な値上げが相次いでいます。Supabaseにおいても、年内や数年以内に『無料枠の縮小』や『複雑なデータ処理に対する追加課金の厳格化』が行われる可能性は十分に想定しておく必要があります。<br><br>
-        しかし、仮に値上げや規約変更が行われたとしても、当社にとっては全く問題がありません。理由は3点です。<br><br>
-        第一に<strong>『圧倒的なコスト差』</strong>です。仮に将来月額1万円などに値上げされても、全社員分のファイルメーカーのライセンス費用を払い続けることに比べれば、依然として圧倒的に安価です。<br>
-        第二に<strong>『人数課金ではない構造』</strong>です。社員が増えるたびにコストが雪だるま式に膨らむ旧来の仕様には二度と戻りません。<br>
-        第三に、これが最強の防衛策ですが<strong>『いつでも他社に引っ越せる』</strong>点です。」
-    </div>
+        <h3>⚠️ 懸念事項：将来の料金改定リスクと「究極の防衛策」</h3>
+        <div class="speech-risk">
+            「一方で、経営的視点から<strong>『将来の料金改定リスク』</strong>についても正直にお伝えしておきます。<br>
+            昨今のクラウド業界では、他社サービスにおいて無料枠の廃止や実質的な値上げが相次いでいます。Supabaseにおいても、年内や数年以内に『無料枠の縮小』や『複雑なデータ処理に対する追加課金の厳格化』が行われる可能性は十分に想定しておく必要があります。<br><br>
+            しかし、仮に値上げや規約変更が行われたとしても、当社にとっては全く問題がありません。理由は3点です。<br><br>
+            第一に<strong>『圧倒的なコスト差』</strong>です。仮に将来月額1万円などに値上げされても、全社員分のファイルメーカーのライセンス費用を払い続けることに比べれば、依然として圧倒的に安価です。<br>
+            第二に<strong>『人数課金ではない構造』</strong>です。社員が増えるたびにコストが雪だるま式に膨らむ旧来の仕様には二度と戻りません。<br>
+            第三に、これが最強の防衛策ですが<strong>『いつでも他社に引っ越せる』</strong>点です。」
+        </div>
 
-    <h3>メリット④：将来への安心（データ資産の独立）</h3>
-    <div class="speech">
-        「この『いつでも引っ越せる』という強みこそが、特定のシステムに依存するリスク（ベンダーロックイン）への究極の解決策です。<br>
-        今回のシステムの中身は、世界中で30年以上使われている『世界標準のデータベース（PostgreSQL）』です。万が一、Supabase側で理不尽な値上げがあった際も、<strong>データを汎用的な形式（CSV等）でいつでも取り出せ、Amazon（AWS）など他の互換性のある安価なシステムへそのまま移行</strong>できます。<br>
-        『会社の財産であるデータを、特定の1社に縛られずに完全に自社でコントロールできる』のが最大の強みです。」
-    </div>
+        <h3>メリット④：将来への安心（データ資産の独立）</h3>
+        <div class="speech">
+            「この『いつでも引っ越せる』という強みこそが、特定のシステムに依存するリスク（ベンダーロックイン）への究極の解決策です。<br>
+            今回のシステムの中身は、世界中で30年以上使われている『世界標準のデータベース（PostgreSQL）』です。万が一、Supabase側で理不尽な値上げがあった際も、<strong>データを汎用的な形式（CSV等）でいつでも取り出せ、Amazon（AWS）など他の互換性のある安価なシステムへそのまま移行</strong>できます。<br>
+            『会社の財産であるデータを、特定の1社に縛られずに完全に自社でコントロールできる』のが最大の強みです。」
+        </div>
 
-    <div class="direction">
-        🗣️ 【結び】ご挨拶
-    </div>
-    <div class="speech">
-        「このように、ファイルメーカーからSupabaseという新しいインフラへ視野を広げることで、将来的なコストやITリスクの課題を根本から解決できる可能性を持っています。<br>
-        まずは当社の未来のシステム基盤として『こういった強力で身軽な選択肢がある』ということを共有させていただきました。以上で、Supabaseのご紹介を終わります。ご清聴ありがとうございました。」
-    </div>
-
-
-    <h2 id="qa">🛡️ 2. 経営陣からの想定Q&A</h2>
-
-    <div class="tabs">
-        <button class="tab-button active" onclick="openTab(event, 'qa-cost')">💰 コスト・契約</button>
-        <button class="tab-button" onclick="openTab(event, 'qa-security')">🛡️ セキュリティ・データ</button>
-        <button class="tab-button" onclick="openTab(event, 'qa-tech')">⚙️ 運用・移行</button>
-        <button class="tab-button" onclick="openTab(event, 'qa-basic')">❓ 基本的な疑問</button>
+        <div class="direction">
+            🗣️ 【結び】ご挨拶
+        </div>
+        <div class="speech">
+            「このように、ファイルメーカーからSupabaseという新しいインフラへ視野を広げることで、将来的なコストやITリスクの課題を根本から解決できる可能性を持っています。<br>
+            まずは当社の未来のシステム基盤として『こういった強力で身軽な選択肢がある』ということを共有させていただきました。以上で、Supabaseのご紹介を終わります。ご清聴ありがとうございました。」
+        </div>
     </div>
 
-    <!-- 💰 コスト・契約タブ -->
-    <div id="qa-cost" class="tab-content" style="display: block;">
+
+    <!-- ==============================================
+         🛡️ 2. 想定Q&Aセクション
+    =============================================== -->
+    <div id="sec-qa" class="main-section">
+        <h1>🛡️ 経営陣からの想定Q&A</h1>
+
+        <div class="sub-tabs">
+            <button class="sub-tab-btn active" onclick="switchSubTab(event, 'qa-cost')">💰 コスト・契約</button>
+            <button class="sub-tab-btn" onclick="switchSubTab(event, 'qa-security')">🛡️ セキュリティ・データ</button>
+            <button class="sub-tab-btn" onclick="switchSubTab(event, 'qa-tech')">⚙️ 運用・移行</button>
+            <button class="sub-tab-btn" onclick="switchSubTab(event, 'qa-basic')">❓ 基本的な疑問</button>
+        </div>
+
+        <!-- 💰 コスト・契約サブタブ -->
+        <div id="qa-cost" class="sub-tab-content active">
+            <div class="qa-box">
+                <div class="question">Q. ファイルメーカーに比べて安すぎるが、なぜSupabaseはここまで安価なのか？安かろう悪かろうではないのか？</div>
+                <div>
+                    「安価な理由は主に2つあります。<br>
+                    1つ目は<strong>『オープンソース技術の活用』</strong>です。ゼロから独自のシステムを開発しているのではなく、世界中の天才エンジニアが無償で改良を続ける『共有の設計図』を土台にしているため、莫大な自社開発費が原価に乗っていません。<br>
+                    2つ目は<strong>『世界規模のスケールメリット』</strong>です。世界中の何百万という開発者や企業が利用するグローバルプラットフォームであるため、薄利多売のモデルが成立しています。<br><br>
+                    決して『安かろう悪かろう』ではなく、ファイルメーカーのような『使う人の数で課金する古いモデル』から、<strong>『インフラの通信処理量だけで適正に課金する現代のクラウド標準モデル』へ移行するだけ</strong>ですので、品質や安全性は世界最高レベルを保ったままコストダウンが可能です。」
+                </div>
+            </div>
+
+            <div class="qa-box">
+                <div class="question">Q. 全員にアカウントを作ったら、結局ユーザーごとの課金で高くなるのでは？</div>
+                <div>
+                    「ご安心ください。<strong>『5万人』までは何人アカウントを作っても追加費用はゼロ</strong>です。<br>
+                    ファイルメーカーは『使う人の数』でお金を取るモデルでしたが、今回は『通信の量』でお金を取るモデルです。そのため、全社員やパートさんに1人1つ専用アカウントを無料で配り放題になります。」
+                </div>
+            </div>
+
+            <div class="qa-box">
+                <div class="question">Q. 海外サービス特有の「突然の値上げ」があったらどうするのか？</div>
+                <div>
+                    「先ほどもご説明した通り、値上げのリスクは常に想定していますが、<strong>『中身が世界標準の技術』であるため、最悪の場合は他のサービスへ逃げることができます。</strong><br>
+                    ファイルメーカーのように『そのソフトがないとデータが見られない』という人質状態ではないため、理不尽な価格改定があれば、データを持ってAWSなどの他社の安価なインフラへすぐに引っ越せる体制を整えています。」
+                </div>
+            </div>
+
+            <div class="qa-box">
+                <div class="question">Q. Webシステムを動かすための「サーバー代」は別でかからないのか？</div>
+                <div>
+                    「かかりません。今回は画面を表示する裏側の仕組み（GAS）に、当社がすでに利用しているGoogleの標準インフラをそのまま活用する設計にしています。<br>
+                    Googleの強固なシステムを『画面用の無料サーバー』として賢く利用するため、別途Webサーバーを契約するような維持費は『完全にゼロ』で運用できます。」
+                </div>
+            </div>
+
+            <div class="qa-box">
+                <div class="question">Q. 海外サービスなので支払いはドル建てになると思うが、為替変動のリスクはどの程度か？</div>
+                <div>
+                    「おっしゃる通りドル建て（月額$25）の決済となります。ただし、元の金額が約4,000円と非常に安価なため、仮に急激な円安が進んだとしても影響は月数百円程度に収まります。<br>
+                    現状のファイルメーカーを全社員に拡大した際の『年間数十万円のコスト増』に比べれば、為替リスクは完全に吸収できる極めて微小な範囲です。」
+                </div>
+            </div>
+        </div>
+
+        <!-- 🛡️ セキュリティ・データサブタブ -->
+        <div id="qa-security" class="sub-tab-content">
+            <div class="qa-box">
+                <div class="question">Q. Supabaseという聞いたことのない海外サービスにデータを預けて信用できるのか？有名企業の導入実績はあるのか？</div>
+                <div>
+                    「ご懸念はもっともですが、すでに世界的な大企業も導入しており、システムの中身も『世界で最も実績のある技術』で構成されています。信用できる理由は以下の3点です。<br><br>
+                    第一に、<strong>海外・国内の圧倒的な導入実績</strong>です。セキュリティに極めて厳しい世界最大級の監査法人<strong>『PwC』</strong>や、世界的ヘルスケア企業の<strong>『ジョンソン・エンド・ジョンソン』</strong>が自社システムに導入しているほか、国内でも<strong>『NOT A HOTEL（ノットアホテル）』</strong>などの先進的な企業がこぞって採用を始めています。<br><br>
+                    第二に、データの物理的な保管場所は<strong>『AmazonのAWS』</strong>を使っています。これは、トヨタ自動車やソニー、パナソニックといった日本の大手製造業の基幹システムでも当たり前のように使われている、世界で最も堅牢なサーバーです。<br><br>
+                    第三に、データベースの中身は30年以上の歴史がある世界標準技術『PostgreSQL』が使われており、Supabase自体も<strong>世界で最も厳しいクラウド安全基準（SOC2（ソックツー））をクリア</strong>しています。<br><br>
+                    つまり、外側の名前こそ新しいですが、すでに『PwCやジョンソン・エンド・ジョンソンが認めた国際基準のセキュリティ』と『トヨタと同じ強固なサーバー』の組み合わせで作られているため、当社の業務データを預けても全く問題ありません。」
+                </div>
+            </div>
+
+            <div class="qa-box">
+                <div class="question">Q. 万が一クラウドが壊れた時のバックアップはどうなっているのか？</div>
+                <div>
+                    「万が一のクラウド障害に備えた<strong>『BCP対策』</strong>も構築可能です。<br>
+                    毎日深夜に全データを自動で標準的な文字データ（CSV）に変換し、当社のGoogleドライブへ暗号化して自動保存する仕組みを用意します。手元のGoogleドライブのデータからすぐに業務を再開できる二重の安全網を張っています。」
+                </div>
+            </div>
+
+            <div class="qa-box">
+                <div class="question">Q. 退職した社員のアクセス権限を消し忘れて、外部から見られてしまうリスクはないのか？</div>
+                <div>
+                    「今回はGoogle Workspaceのシステムと連動させているため、退職時に会社のGoogleアカウントを停止するだけで、自動的にこちらのシステムにも一切アクセスできなくなります。<br>
+                    個別のシステムごとに権限を消す手間がなく、消し忘れによる情報漏洩のリスクを物理的に遮断できます。」
+                </div>
+            </div>
+
+            <div class="qa-box">
+                <div class="question">Q. クラウドサービスということは、Supabaseの運営会社の人間が当社のデータを覗き見できるのではないか？</div>
+                <div>
+                    「Supabaseは『SOC2』という非常に厳しい国際セキュリティ基準をクリアしており、内部犯行や不正アクセスを防ぐ強固な監査体制が敷かれています。<br>
+                    正当な理由と厳格な承認プロセスなしに運営者が顧客のデータベースにアクセスすることは物理的・制度的に不可能となっており、国内の金融機関と同等レベルの安全性が確保されています。」
+                </div>
+            </div>
+        </div>
+
+        <!-- ⚙️ 運用・移行サブタブ -->
+        <div id="qa-tech" class="sub-tab-content">
+            <div class="qa-box">
+                <div class="question">Q. Webシステムになると『あなたしか直せない（属人化）』にならないか？</div>
+                <div>
+                    「むしろ、将来的な人材確保の面では今回の方が有利です。<br>
+                    ファイルメーカーは独自のスキルが必要ですが、今回採用した技術は<strong>IT業界の世界標準</strong>です。万が一私が不在になっても、一般的なWeb技術者であれば誰でも引き継ぎができるため、会社としての技術的リスクは下がります。」
+                </div>
+            </div>
+
+            <div class="qa-box">
+                <div class="question">Q. 現在のファイルメーカーの過去データは、本当に欠損なく全て移せるのか？</div>
+                <div>
+                    「はい、可能です。ファイルメーカーのデータを一度CSVという標準的な文字データで書き出し、それをそのままSupabaseに流し込むことで、過去の蓄積データを1件残らず移行できます。<br>
+                    既にバックグラウンドでの移行テストを実施し、文字化けやデータの欠損がないことを確認済みです。」
+                </div>
+            </div>
+
+            <div class="qa-box">
+                <div class="question">Q. 新しいシステムになると、現場の作業員が操作に戸惑って業務が停滞しないか？</div>
+                <div>
+                    「ご安心ください。新しい画面は、今のファイルメーカーの使い勝手をベースにしつつ、Webならではのより直感的な操作ができるよう設計しています。<br>
+                    いきなり全社で切り替えるのではなく、まずは一部の業務でテスト運用（並行稼働）を行い、現場の声を反映して微調整を重ねてから本格稼働するため、現場の混乱を未然に防ぎます。」
+                </div>
+            </div>
+        </div>
+
+        <!-- ❓ 基本的な疑問サブタブ -->
+        <div id="qa-basic" class="sub-tab-content">
+            <div class="qa-box">
+                <div class="question">Q. 「Webサイト（Webアプリ）になる」とは、具体的にどういうことか？</div>
+                <div>
+                    「専用ソフトをパソコンに入れる必要がなくなり、YahooやAmazonを見るのと同じように、インターネットのURLを開くだけで使えるシステムになるということです。<br>
+                    会社のPCでも個人のスマホでも利用でき、常に全員が最新のシステムを使える状態になるため、システム管理の手間が事実上ゼロになります。」
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==============================================
+         📖 3. 用語解説セクション
+    =============================================== -->
+    <div id="sec-glossary" class="main-section">
+        <h1>📖 とっさの専門用語・解説リスト</h1>
+
+        <div class="term-box">
+            <span class="term-title">■ ジョンソン・エンド・ジョンソン、Mozillaなど</span>
+            「Supabaseを実際に導入している世界的な大企業の例です。誰もが知る大企業も、このシステムを安全だと認めて使っている、という説得材料として名前を出しています。（IT業界ではパスワード管理大手の1Password等も導入しています）」
+        </div>
+
+        <div class="term-box">
+            <span class="term-title">■ PwC（ピーダブリューシー / 世界最大級の監査法人）</span>
+            「世界四大監査法人の一つで、超巨大コンサルティング企業です。<strong>他社の極秘の財務データや買収（M&A）情報を扱うような、セキュリティに最も厳しい世界的企業</strong>も、自社のシステムとしてSupabaseを安全だと認めて導入している、という究極の説得材料として用意しています。」
+        </div>
+
+        <div class="term-box">
+            <span class="term-title">■ NOT A HOTEL（ノットアホテル）</span>
+            「『家をスマホで買う』という新しいビジネスモデルで急成長している日本の先進的な企業です。国内でもセキュリティと最新技術に感度の高い企業からSupabaseの導入が始まっている事例として挙げています。」
+        </div>
+
+        <div class="term-box">
+            <span class="term-title">■ フロントエンド（画面）とデータベース</span>
+            「フロントエンドは<strong>『接客窓口』</strong>、データベースは<strong>『奥の金庫』</strong>と考えてください。今回は窓口（画面）を普通のWebサイトとして切り離したため、少し使うだけの人に高額な専用ソフトを買わせる必要がなくなりました。」
+        </div>
+
+        <div class="term-box">
+            <span class="term-title">■ AWS（Amazon Web Services）</span>
+            「Amazonが提供している、世界で一番巨大で安全な『インターネット上の金庫番（サーバー貸し出し）』です。<strong>トヨタ自動車や日本のデジタル庁、メガバンクも軒並みこのAmazonのインフラを使っています。</strong>」
+        </div>
+
+        <div class="term-box">
+            <span class="term-title">■ PostgreSQL（ポストグレス・キューエル）</span>
+            「Supabaseの中で動いている『データベースのエンジン部分』です。世界で最も信頼されているオープンソース技術の1つで、<strong>30年以上の歴史があり、世界中のインフラを支えています。</strong>」
+        </div>
+
+        <div class="term-box">
+            <span class="term-title">■ オープンソース</span>
+            「ソフトウェアの設計図がインターネット上に無料で公開されている仕組みです。<strong>『クックパッドに公開されている世界中で大人気のレシピ』</strong>のようなもので、世界中の天才エンジニアが監視・改良しているため、密室で作るシステムより安全性が高いです。」
+        </div>
+
+        <div class="term-box">
+            <span class="term-title">■ ベンダーロックイン</span>
+            「<strong>『データが人質に取られている状態』</strong>のことです。独自のソフトがないと過去のデータが見られない状態だと、急な値上げにも従うしかありません。今回の最大の目的はこの人質状態からの脱却です。」
+        </div>
+
+        <div class="term-box">
+            <span class="term-title">■ CSVファイル</span>
+            「データ移行やバックアップで使う<strong>『すっぴんの文字データ』</strong>です。Excelのような色や罫線のお化粧がないため容量が圧倒的に軽く、どんなシステムにも確実に引っ越しができる最強のデータ形式です。」
+        </div>
+
+        <div class="term-box">
+            <span class="term-title">■ BCP対策（事業継続計画）</span>
+            「万が一の大規模災害やシステム障害が起きた際に、<strong>会社の大事な業務を止めない、あるいはすぐに復旧させるための『備え』</strong>のことです。今回は、万が一システム本体が停止しても、手元のGoogleドライブに保存したバックアップデータから業務を継続・復旧できる仕組みをBCP対策としています。」
+        </div>
+
+        <div class="term-box">
+            <span class="term-title">■ SOC2（ソックツー / クラウド安全基準）</span>
+            「アメリカ公認会計士協会が定めた、<strong>『このシステムは機密情報を預けても絶対に安全か』を審査する、世界で最も厳しい国際認証</strong>の一つです。Supabaseはこの審査をクリアしているため、第三者機関からも安全性が客観的に証明されています。」
+        </div>
+    </div>
+
+
+    <!-- ==============================================
+         📊 4. 補足資料セクション
+    =============================================== -->
+    <div id="sec-appendix" class="main-section">
+        <h1>📊 PDF表の詳細解説（突っ込まれた時の防衛用）</h1>
+
         <div class="qa-box">
-            <div class="question">Q. 全員にアカウントを作ったら、結局ユーザーごとの課金で高くなるのでは？</div>
+            <div class="question">■ Q. 「無料版（Freeプラン）」のままで運用しちゃダメなの？</div>
             <div>
-                「ご安心ください。<strong>『5万人』までは何人アカウントを作っても追加費用はゼロ</strong>です。<br>
-                ファイルメーカーは『使う人の数』でお金を取るモデルでしたが、今回は『通信の量』でお金を取るモデルです。そのため、全社員やパートさんに1人1つ専用アカウントを無料で配り放題になります。」
+                「コスト面だけ見れば無料版でも運用可能ですが、業務システムとしては致命的な弱点があります。インフラ余裕度の表にある通り、無料版は『1週間アクセスがないとプロジェクトが自動停止』してしまい、次に誰かが開いた時に起動まで数分待たされるという仕様があります。<br><br>
+                月額4,000円のProプランに移行することで『24時間365日の常時稼働』が保証され、さらに『毎日の自動バックアップ（7日間保持）』機能が追加されるため、会社の基幹システムとしての安全性を担保するためにはProプランが必須と考えております。」
             </div>
         </div>
 
         <div class="qa-box">
-            <div class="question">Q. 海外サービス特有の「突然の値上げ」があったらどうするのか？</div>
+            <div class="question">■ Q. インフラ余裕度の表にある「上限を超過した場合」ってどうなるの？システムが止まるの？</div>
             <div>
-                「先ほどもご説明した通り、値上げのリスクは常に想定していますが、<strong>『中身が世界標準の技術』であるため、最悪の場合は他のサービスへ逃げることができます。</strong><br>
-                ファイルメーカーのように『そのソフトがないとデータが見られない』という人質状態ではないため、理不尽な価格改定があれば、データを持ってAWSなどの他社の安価なインフラへすぐに引っ越せる体制を整えています。」
+                「ご安心ください。Proプランでは、万が一上限（データ8GB、通信量250GB）を超過した場合でも、システムが停止することはありません。<br><br>
+                超過した分だけ『1GBあたり約18円（$0.125）』という極めて少額な従量課金が自動で追加される仕組みになっています。現在『0.35%』しか使っていないため、この超過料金が発生することは当面あり得ませんが、万が一データが爆発的に増えてもシステムが止まらない『安全装置』として機能しています。」
             </div>
         </div>
 
         <div class="qa-box">
-            <div class="question">Q. Webシステムを動かすための「サーバー代」は別でかからないのか？</div>
+            <div class="question">■ Q. ファイルストレージ容量（100GB）って何に使うの？</div>
             <div>
-                「かかりません。今回は画面を表示する裏側の仕組み（GAS）に、当社がすでに利用しているGoogleの標準インフラをそのまま活用する設計にしています。<br>
-                Googleの強固なシステムを『画面用の無料サーバー』として賢く利用するため、別途Webサーバーを契約するような維持費は『完全にゼロ』で運用できます。」
+                「今回のデータベース（文字情報）とは別に、PDFの設計図面や現場の写真画像などをシステム上に保存する場合に使う『ファイル置き場』の容量です。Proプランならこれが100GBまで標準でついてきます。文字情報だけの業務であれば全く気にする必要のない十分すぎる容量です。」
             </div>
         </div>
 
         <div class="qa-box">
-            <div class="question">Q. 海外サービスなので支払いはドル建てになると思うが、為替変動のリスクはどの程度か？</div>
+            <div class="question">■ Q. コスト表の「ファイルメーカーCloud（AWS版）」って何？</div>
             <div>
-                「おっしゃる通りドル建て（月額$25）の決済となります。ただし、元の金額が約4,000円と非常に安価なため、仮に急激な円安が進んだとしても影響は月数百円程度に収まります。<br>
-                現状のファイルメーカーを全社員に拡大した際の『年間数十万円のコスト増』に比べれば、為替リスクは完全に吸収できる極めて微小な範囲です。」
+                「仮にファイルメーカーのまま、今回のように『どこからでもWebアクセスできるクラウド環境』を作ろうとした場合のメーカー公式の参考価格です。なんと43名で年額約124万円もかかってしまいます。Supabase（年額4.8万円）に移行することが、いかに自社のITコスト削減に貢献するかがお分かりいただけるかと思います。」
             </div>
         </div>
     </div>
 
-    <!-- 🛡️ セキュリティ・データタブ -->
-    <div id="qa-security" class="tab-content">
-        <div class="qa-box">
-            <div class="question">Q. Supabaseという聞いたことのない海外サービスにデータを預けて信用できるのか？有名企業の導入実績はあるのか？</div>
-            <div>
-                「ご懸念はもっともですが、すでに世界的な大企業も導入しており、システムの中身も『世界で最も実績のある技術』で構成されています。信用できる理由は以下の3点です。<br><br>
-                第一に、<strong>海外・国内の圧倒的な導入実績</strong>です。セキュリティに極めて厳しい世界最大級の監査法人<strong>『PwC』</strong>や、世界的ヘルスケア企業の<strong>『ジョンソン・エンド・ジョンソン』</strong>が自社システムに導入しているほか、国内でも<strong>『NOT A HOTEL（ノットアホテル）』</strong>などの先進的な企業がこぞって採用を始めています。<br><br>
-                第二に、データの物理的な保管場所は<strong>『AmazonのAWS』</strong>を使っています。これは、トヨタ自動車やソニー、パナソニックといった日本の大手製造業の基幹システムでも当たり前のように使われている、世界で最も堅牢なサーバーです。<br><br>
-                第三に、データベースの中身は30年以上の歴史がある世界標準技術『PostgreSQL』が使われており、Supabase自体も<strong>世界で最も厳しいクラウド安全基準（SOC2（ソックツー））をクリア</strong>しています。<br><br>
-                つまり、外側の名前こそ新しいですが、すでに『PwCやジョンソン・エンド・ジョンソンが認めた国際基準のセキュリティ』と『トヨタと同じ強固なサーバー』の組み合わせで作られているため、当社の業務データを預けても全く問題ありません。」
-            </div>
-        </div>
-
-        <div class="qa-box">
-            <div class="question">Q. 万が一クラウドが壊れた時のバックアップはどうなっているのか？</div>
-            <div>
-                「万が一のクラウド障害に備えた<strong>『BCP対策』</strong>も構築可能です。<br>
-                毎日深夜に全データを自動で標準的な文字データ（CSV）に変換し、当社のGoogleドライブへ暗号化して自動保存する仕組みを用意します。手元のGoogleドライブのデータからすぐに業務を再開できる二重の安全網を張っています。」
-            </div>
-        </div>
-
-        <div class="qa-box">
-            <div class="question">Q. 退職した社員のアクセス権限を消し忘れて、外部から見られてしまうリスクはないのか？</div>
-            <div>
-                「今回はGoogle Workspaceのシステムと連動させているため、退職時に会社のGoogleアカウントを停止するだけで、自動的にこちらのシステムにも一切アクセスできなくなります。<br>
-                個別のシステムごとに権限を消す手間がなく、消し忘れによる情報漏洩のリスクを物理的に遮断できます。」
-            </div>
-        </div>
-
-        <div class="qa-box">
-            <div class="question">Q. クラウドサービスということは、Supabaseの運営会社の人間が当社のデータを覗き見できるのではないか？</div>
-            <div>
-                「Supabaseは『SOC2』という非常に厳しい国際セキュリティ基準をクリアしており、内部犯行や不正アクセスを防ぐ強固な監査体制が敷かれています。<br>
-                正当な理由と厳格な承認プロセスなしに運営者が顧客のデータベースにアクセスすることは物理的・制度的に不可能となっており、国内の金融機関と同等レベルの安全性が確保されています。」
-            </div>
-        </div>
-    </div>
-
-    <!-- ⚙️ 運用・移行タブ -->
-    <div id="qa-tech" class="tab-content">
-        <div class="qa-box">
-            <div class="question">Q. Webシステムになると『あなたしか直せない（属人化）』にならないか？</div>
-            <div>
-                「むしろ、将来的な人材確保の面では今回の方が有利です。<br>
-                ファイルメーカーは独自のスキルが必要ですが、今回採用した技術は<strong>IT業界の世界標準</strong>です。万が一私が不在になっても、一般的なWeb技術者であれば誰でも引き継ぎができるため、会社としての技術的リスクは下がります。」
-            </div>
-        </div>
-
-        <div class="qa-box">
-            <div class="question">Q. 現在のファイルメーカーの過去データは、本当に欠損なく全て移せるのか？</div>
-            <div>
-                「はい、可能です。ファイルメーカーのデータを一度CSVという標準的な文字データで書き出し、それをそのままSupabaseに流し込むことで、過去の蓄積データを1件残らず移行できます。<br>
-                既にバックグラウンドでの移行テストを実施し、文字化けやデータの欠損がないことを確認済みです。」
-            </div>
-        </div>
-
-        <div class="qa-box">
-            <div class="question">Q. 新しいシステムになると、現場の作業員が操作に戸惑って業務が停滞しないか？</div>
-            <div>
-                「ご安心ください。新しい画面は、今のファイルメーカーの使い勝手をベースにしつつ、Webならではのより直感的な操作ができるよう設計しています。<br>
-                いきなり全社で切り替えるのではなく、まずは一部の業務でテスト運用（並行稼働）を行い、現場の声を反映して微調整を重ねてから本格稼働するため、現場の混乱を未然に防ぎます。」
-            </div>
-        </div>
-    </div>
-
-    <!-- ❓ 基本的な疑問タブ -->
-    <div id="qa-basic" class="tab-content">
-        <div class="qa-box">
-            <div class="question">Q. 「Webサイト（Webアプリ）になる」とは、具体的にどういうことか？</div>
-            <div>
-                「専用ソフトをパソコンに入れる必要がなくなり、YahooやAmazonを見るのと同じように、インターネットのURLを開くだけで使えるシステムになるということです。<br>
-                会社のPCでも個人のスマホでも利用でき、常に全員が最新のシステムを使える状態になるため、システム管理の手間が事実上ゼロになります。」
-            </div>
-        </div>
-    </div>
-
-    <h2 id="glossary">📖 3. とっさの専門用語・解説リスト</h2>
-
-    <div class="term-box">
-        <span class="term-title">■ ジョンソン・エンド・ジョンソン、Mozillaなど</span>
-        「Supabaseを実際に導入している世界的な大企業の例です。誰もが知る大企業も、このシステムを安全だと認めて使っている、という説得材料として名前を出しています。（IT業界ではパスワード管理大手の1Password等も導入しています）」
-    </div>
-
-    <div class="term-box">
-        <span class="term-title">■ PwC（ピーダブリューシー / 世界最大級の監査法人）</span>
-        「世界四大監査法人の一つで、超巨大コンサルティング企業です。<strong>他社の極秘の財務データや買収（M&A）情報を扱うような、セキュリティに最も厳しい世界的企業</strong>も、自社のシステムとしてSupabaseを安全だと認めて導入している、という究極の説得材料として用意しています。」
-    </div>
-
-    <div class="term-box">
-        <span class="term-title">■ NOT A HOTEL（ノットアホテル）</span>
-        「『家をスマホで買う』という新しいビジネスモデルで急成長している日本の先進的な企業です。国内でもセキュリティと最新技術に感度の高い企業からSupabaseの導入が始まっている事例として挙げています。」
-    </div>
-
-    <div class="term-box">
-        <span class="term-title">■ フロントエンド（画面）とデータベース</span>
-        「フロントエンドは<strong>『接客窓口』</strong>、データベースは<strong>『奥の金庫』</strong>と考えてください。今回は窓口（画面）を普通のWebサイトとして切り離したため、少し使うだけの人に高額な専用ソフトを買わせる必要がなくなりました。」
-    </div>
-
-    <div class="term-box">
-        <span class="term-title">■ AWS（Amazon Web Services）</span>
-        「Amazonが提供している、世界で一番巨大で安全な『インターネット上の金庫番（サーバー貸し出し）』です。<strong>トヨタ自動車や日本のデジタル庁、メガバンクも軒並みこのAmazonのインフラを使っています。</strong>」
-    </div>
-
-    <div class="term-box">
-        <span class="term-title">■ PostgreSQL（ポストグレス・キューエル）</span>
-        「Supabaseの中で動いている『データベースのエンジン部分』です。世界で最も信頼されているオープンソース技術の1つで、<strong>30年以上の歴史があり、世界中のインフラを支えています。</strong>」
-    </div>
-
-    <div class="term-box">
-        <span class="term-title">■ オープンソース</span>
-        「ソフトウェアの設計図がインターネット上に無料で公開されている仕組みです。<strong>『クックパッドに公開されている世界中で大人気のレシピ』</strong>のようなもので、世界中の天才エンジニアが監視・改良しているため、密室で作るシステムより安全性が高いです。」
-    </div>
-
-    <div class="term-box">
-        <span class="term-title">■ ベンダーロックイン</span>
-        「<strong>『データが人質に取られている状態』</strong>のことです。独自のソフトがないと過去のデータが見られない状態だと、急な値上げにも従うしかありません。今回の最大の目的はこの人質状態からの脱却です。」
-    </div>
-
-    <div class="term-box">
-        <span class="term-title">■ CSVファイル</span>
-        「データ移行やバックアップで使う<strong>『すっぴんの文字データ』</strong>です。Excelのような色や罫線のお化粧がないため容量が圧倒的に軽く、どんなシステムにも確実に引っ越しができる最強のデータ形式です。」
-    </div>
-
-    <div class="term-box">
-        <span class="term-title">■ BCP対策（事業継続計画）</span>
-        「万が一の大規模災害やシステム障害が起きた際に、<strong>会社の大事な業務を止めない、あるいはすぐに復旧させるための『備え』</strong>のことです。今回は、万が一システム本体が停止しても、手元のGoogleドライブに保存したバックアップデータから業務を継続・復旧できる仕組みをBCP対策としています。」
-    </div>
-
-    <div class="term-box">
-        <span class="term-title">■ SOC2（ソックツー / クラウド安全基準）</span>
-        「アメリカ公認会計士協会が定めた、<strong>『このシステムは機密情報を預けても絶対に安全か』を審査する、世界で最も厳しい国際認証</strong>の一つです。Supabaseはこの審査をクリアしているため、第三者機関からも安全性が客観的に証明されています。」
-    </div>
-
-
-    <h2 id="appendix">📊 4. 【補足資料】PDF表の詳細解説（突っ込まれた時の防衛用）</h2>
-
-    <div class="qa-box">
-        <div class="question">■ Q. 「無料版（Freeプラン）」のままで運用しちゃダメなの？</div>
-        <div>
-            「コスト面だけ見れば無料版でも運用可能ですが、業務システムとしては致命的な弱点があります。インフラ余裕度の表にある通り、無料版は『1週間アクセスがないとプロジェクトが自動停止』してしまい、次に誰かが開いた時に起動まで数分待たされるという仕様があります。<br><br>
-            月額4,000円のProプランに移行することで『24時間365日の常時稼働』が保証され、さらに『毎日の自動バックアップ（7日間保持）』機能が追加されるため、会社の基幹システムとしての安全性を担保するためにはProプランが必須と考えております。」
-        </div>
-    </div>
-
-    <div class="qa-box">
-        <div class="question">■ Q. インフラ余裕度の表にある「上限を超過した場合」ってどうなるの？システムが止まるの？</div>
-        <div>
-            「ご安心ください。Proプランでは、万が一上限（データ8GB、通信量250GB）を超過した場合でも、システムが停止することはありません。<br><br>
-            超過した分だけ『1GBあたり約18円（$0.125）』という極めて少額な従量課金が自動で追加される仕組みになっています。現在『0.35%』しか使っていないため、この超過料金が発生することは当面あり得ませんが、万が一データが爆発的に増えてもシステムが止まらない『安全装置』として機能しています。」
-        </div>
-    </div>
-
-    <div class="qa-box">
-        <div class="question">■ Q. ファイルストレージ容量（100GB）って何に使うの？</div>
-        <div>
-            「今回のデータベース（文字情報）とは別に、PDFの設計図面や現場の写真画像などをシステム上に保存する場合に使う『ファイル置き場』の容量です。Proプランならこれが100GBまで標準でついてきます。文字情報だけの業務であれば全く気にする必要のない十分すぎる容量です。」
-        </div>
-    </div>
-
-    <div class="qa-box">
-        <div class="question">■ Q. コスト表の「ファイルメーカーCloud（AWS版）」って何？</div>
-        <div>
-            「仮にファイルメーカーのまま、今回のように『どこからでもWebアクセスできるクラウド環境』を作ろうとした場合のメーカー公式の参考価格です。なんと43名で年額約124万円もかかってしまいます。Supabase（年額4.8万円）に移行することが、いかに自社のITコスト削減に貢献するかがお分かりいただけるかと思います。」
-        </div>
-    </div>
-
+    <!-- JavaScript: タブ切り替えのロジック -->
     <script>
-        function openTab(evt, tabName) {
-            // 全てのタブコンテンツを非表示にする
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
+        // 大項目（メインセクション）の切り替え
+        function switchMainSection(evt, sectionId) {
+            // 全てのメインセクションを非表示にする
+            var i, sections, navBtns;
+            sections = document.getElementsByClassName("main-section");
+            for (i = 0; i < sections.length; i++) {
+                sections[i].classList.remove("active");
             }
             
-            // 全てのタブボタンから "active" クラスを削除する
-            tablinks = document.getElementsByClassName("tab-button");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            // 全てのメインナビゲーションボタンから "active" を削除する
+            navBtns = document.getElementsByClassName("main-nav-btn");
+            for (i = 0; i < navBtns.length; i++) {
+                navBtns[i].classList.remove("active");
             }
             
-            // 選択されたタブを表示し、クリックされたボタンに "active" クラスを追加する
-            document.getElementById(tabName).style.display = "block";
-            evt.currentTarget.className += " active";
+            // 選択されたセクションを表示し、ボタンをアクティブにする
+            document.getElementById(sectionId).classList.add("active");
+            evt.currentTarget.classList.add("active");
+            
+            // スクロールを一番上に戻す
+            window.scrollTo(0, 0);
+        }
+
+        // Q&A内のサブタブの切り替え
+        function switchSubTab(evt, tabId) {
+            // 全てのサブタブコンテンツを非表示にする
+            var i, tabContents, tabBtns;
+            tabContents = document.getElementsByClassName("sub-tab-content");
+            for (i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+            
+            // 全てのサブタブボタンから "active" を削除する
+            tabBtns = document.getElementsByClassName("sub-tab-btn");
+            for (i = 0; i < tabBtns.length; i++) {
+                tabBtns[i].classList.remove("active");
+            }
+            
+            // 選択されたサブタブを表示し、ボタンをアクティブにする
+            document.getElementById(tabId).classList.add("active");
+            evt.currentTarget.classList.add("active");
         }
     </script>
 </body>
