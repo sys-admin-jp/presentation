@@ -17,6 +17,7 @@ h1{font-weight:900;font-size:clamp(2.2rem,5.5vw,3.3rem);line-height:1.3}
 .panel h2,.sec h3{color:var(--ink)}
 .sec h3{font-size:1.4rem;font-weight:900}
 .about{background:var(--panel-2);border-left:4px solid #66727f;border-radius:0 8px 8px 0;padding:.8rem 1rem;font-size:1.1rem}
+.about.sm{font-size:1rem}
 .form-label{font-size:1.1rem}
 .form-control,.form-select{background:#20262d;color:var(--ink);border-color:#4a5562;font-size:1.1rem}
 .form-control::placeholder{color:#8f9aa6}
@@ -78,7 +79,7 @@ summary{font-weight:700;cursor:pointer;color:var(--ink)}
       <li>表示された時間（ミリ秒）を見ます。<b>数字が小さいほど速い</b>です。1000ミリ秒 = 1秒です。</li>
       <li>一番下の「平均値の比較」で、直通とGAS経由の差を文章で確認できます。</li>
     </ol>
-    <div class="small text-muted">※ 同じ操作でも毎回数百ミリ秒ほどぶれます。だから5回の平均を使います。エラーになった回は平均から除外し、エラー回数として別に数えます。</div>
+    <div class="small text-muted">※ 同じ操作でも毎回ぶれます。だから5回の平均を使います。エラーになった回は平均から除外し、エラー回数として別に数えます。</div>
   </div>
 
   <!-- 実験1 -->
@@ -102,7 +103,7 @@ summary{font-weight:700;cursor:pointer;color:var(--ink)}
   <!-- 実験2 -->
   <section class="panel sec mb-4">
     <h3>実験2　名前の一部からデータを探す</h3>
-    <div class="about mb-3"><b>何をしている？</b> 約100万件の中から、名前に入力した文字を含む売上を探します（新しい順に最大50件表示）。<br><b>見どころ：</b>探す速さ。名前の「一部」を探す検索は、全データを順に見るため重い処理です。ダミーデータの名前は「佐藤」「鈴木」などの苗字と、「太郎」「花子」などの名前の組み合わせです。</div>
+    <div class="about mb-3"><b>何をしている？</b> 約100万件の中から、名前に入力した文字を含む売上を探します（新しい順に最大50件表示）。<br><b>見どころ：</b>探す速さ。<b>探す文字によって、速さが大きく変わります。</b>ダミーデータの名前は「佐藤」「鈴木」などの苗字と、「太郎」「花子」などの名前の組み合わせです。</div>
     <label class="form-label fw-bold">探す文字</label>
     <input id="searchKw" class="form-control" placeholder="例：佐藤 / 太郎 / 0123" style="max-width:420px">
     <div class="d-flex flex-wrap gap-2 mt-3">
@@ -111,6 +112,16 @@ summary{font-weight:700;cursor:pointer;color:var(--ink)}
     </div>
     <div class="res mt-3" id="r-search"><span class="ph">結果がここに出ます</span></div>
     <div class="stat" id="st-search"><span class="ph">まだ測定していません</span></div>
+    <div class="about sm mt-3">
+      <b>補足：「Supabaseでエラーが出ることがあるのはなぜ？」</b><br>
+      100万件が多すぎるわけではありません。原因は、探す文字によって<b>処理の重さが大きく変わる</b>ことです。
+      <ul class="mb-1 mt-1">
+        <li>「田中」のように該当する人が多い文字では、その人たちの売上（約10万件）を集めて、新しい順に並べ替える必要があります。これに約4秒かかることがあります。</li>
+        <li>Supabaseには、<b>約3秒を超える処理は自動で止める</b>決まりがあります。みんなで共有するデータベースを、重い処理から守るためです。このとき「時間切れ」のエラーになります。</li>
+        <li>該当する人が少ない文字なら、同じ100万件でも0.05秒ほどで終わります。</li>
+      </ul>
+      BigQueryにはこの短い制限がなく、どんな文字でもほぼ同じ時間で終わります。これも、2つの<b>得意・不得意の違い</b>のひとつです。
+    </div>
   </section>
 
   <!-- 実験3 -->
@@ -138,14 +149,14 @@ summary{font-weight:700;cursor:pointer;color:var(--ink)}
       <button class="btn btn-sb" onclick="copyReport()">テキストをコピー</button>
       <button class="btn btn-outline-secondary" onclick="resetAll()">測定結果をリセット</button>
     </div>
-    <div class="small text-muted mt-3">GAS経由の平均値は、前回の5回測定（実験2のSupabaseはエラー1回を除く4回）の値です。変更したい場合は、下のコードの <code>REF</code> を書き換えてください。</div>
+    <div class="small text-muted mt-3">GAS経由の平均値は、前回の5回測定（実験2のSupabaseはエラー1回を除く4回）の値です。変更したい場合は、下のコードの <code>REF</code> を書き換えてください。実験2は探す文字を変えて測ると、同じ平均に別々の文字の結果が混ざります。文字を変えたら「リセット」してください。</div>
   </section>
 
   <section class="panel mb-4">
     <h2 class="h5 fw-bold mb-2">用語メモ</h2>
-    <details><summary>直通とGAS経由は何が違うの？</summary><p class="mb-1 mt-1">GAS経由は「ブラウザ → GAS → Supabase」と2回の通信が必要です。直通は「ブラウザ → Supabase」の1回だけです。そのぶん直通のほうが、通常は数百ミリ秒ほど速くなります。</p></details>
+    <details><summary>直通とGAS経由は何が違うの？</summary><p class="mb-1 mt-1">GAS経由は「ブラウザ → GAS → Supabase」と2回の通信が必要です。直通は「ブラウザ → Supabase」の1回だけです。そのぶん直通のほうが、通常は1秒ほど速くなります。</p></details>
     <details><summary>ミリ秒（ms）とは？</summary><p class="mb-1 mt-1">1000分の1秒です。「800ms」は約0.8秒です。</p></details>
-    <details><summary>エラーになるのはなぜ？</summary><p class="mb-1 mt-1">実験2は約100万件を全部見るため重く、Supabaseが決めた制限時間（標準で約3秒）を超えると、途中で強制終了されます。これを「タイムアウト」と呼びます。エラーの理由は、測定結果の下に表示されます。</p></details>
+    <details><summary>「時間切れ」のエラーとは？</summary><p class="mb-1 mt-1">処理に約3秒以上かかると、Supabaseが自動で止める決まりです。これを「タイムアウト」と呼びます。故障ではなく、みんなで使うデータベースを重い処理から守る安全装置です。通信が一時的に失敗したときも、エラーになります。</p></details>
     <details><summary>JOIN（ジョイン）とは？</summary><p class="mb-1 mt-1">別々の表を、共通の項目（今回は社員のID）でつなげて1つの表のように扱うことです。</p></details>
     <details><summary>なぜ5回測って平均を出すの？</summary><p class="mb-1 mt-1">通信の混み具合などで、1回ごとの時間は大きくぶれます。数回測って平均を見ると、全体の傾向がつかみやすくなります。</p></details>
   </section>
@@ -172,12 +183,12 @@ const REF = {
 // 各実験の「なぜこうなる？」説明
 const WHY = {
   add:'直通は、GASという中継ぎがない分、通信が1回で済みます。登録は1件の書き込みだけなので、差の大部分は「GASを通す時間」と考えられます。',
-  search:'検索は名前の「一部」を探すため、約100万件を順に見ます。重い処理なので、GASの有無より、Supabase側の処理時間が大きく効きます。',
+  search:'検索の速さは、探す文字に該当する人の数で大きく変わります。該当する人が少ない文字は一瞬で終わりますが、「田中」のように多い文字は、売上を集めて並べ替える作業が増えて遅くなり、時間切れになることがあります。BigQueryは文字によらず、ほぼ同じ時間です。',
   agg:'集計は2つの表を合体（JOIN）してから全件を計算するため、処理そのものが重いです。GASの中継ぎの差は、全体の中では小さく見えます。'
 };
 
 // ---------------------------------------------------------
-const runs = { add: [], search: [], agg: [] };   // {ok:true, ms} / {ok:false, error}
+const runs = { add: [], search: [], agg: [] };   // {ok:true, ms, tag} / {ok:false, error, tag}
 let busy = false;
 
 const esc = v => v == null ? '' : String(v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -235,16 +246,17 @@ async function runMany(action, n) {
   if (busy) return;
   let args;
   try { args = getArgs(action); } catch (e) { alert(e.message); return; }
+  const tag = action === 'search' ? args[1].p_keyword : '';   // 検索は、どの文字で測ったかを記録
   busy = true;
   try {
     for (let i = 1; i <= n; i++) {
       overlay(true, `${REF[action].name}　${i} / ${n} 回目を実行中…`);
       try {
         const r = await rpc(args[0], args[1]);
-        runs[action].push({ ok: true, ms: r.ms });
+        runs[action].push({ ok: true, ms: r.ms, tag });
         renderResult(action, r);
       } catch (e) {
-        runs[action].push({ ok: false, error: e.message });
+        runs[action].push({ ok: false, error: e.message, tag });
         renderError(action, e.message);
       }
       renderStat(action);
@@ -294,7 +306,7 @@ function renderResult(action, r) {
 
 function renderError(action, msg) {
   let h = `<div class="alert alert-danger small mb-0">うまくいきませんでした：${esc(msg)}</div>`;
-  if (isTimeout(msg)) h += `<div class="hint">時間切れ（タイムアウト）です。処理が重く、Supabaseの制限時間（標準で約3秒）を超えたため、途中で止められました。</div>`;
+  if (isTimeout(msg)) h += `<div class="hint">処理が重く、制限時間（約3秒）を超えたため止められました。故障ではなく、Supabaseの安全装置です。</div>`;
   document.getElementById('r-' + action).innerHTML = h;
 }
 
@@ -317,16 +329,18 @@ function aggTable(rows) {
 
 function renderStat(action) {
   const s = stats(action);
-  const chips = runs[action].map((r, i) =>
-    r.ok ? `<span>${i + 1}回目 ${num(r.ms)}ms</span>`
-         : `<span class="err" title="${esc(r.error)}">${i + 1}回目 ${isTimeout(r.error) ? '時間切れ' : 'エラー'}</span>`).join('');
+  const chips = runs[action].map((r, i) => {
+    const t = r.tag ? `「${esc(r.tag)}」` : '';
+    return r.ok ? `<span>${i + 1}回目 ${t}${num(r.ms)}ms</span>`
+                : `<span class="err" title="${esc(r.error)}">${i + 1}回目 ${t}${isTimeout(r.error) ? '時間切れ' : 'エラー'}</span>`;
+  }).join('');
   let h = `<div class="head mb-1">この結果からわかること（${REF[action].name}）</div><div class="chips">${chips}</div>`;
   if (s.n) {
     h += `<div><b>直通の平均：${num(s.avg)} ミリ秒</b>（成功${s.n}回` + (s.err ? ` / エラー${s.err}回` : '') + `、中央値 ${num(s.med)}、最小 ${num(s.min)}、最大 ${num(s.max)}）</div>`;
     h += `<div class="mt-1">GAS経由のSupabase平均 ${num(REF[action].sbGas)} ミリ秒に対して：<b>${diffText(s.avg, REF[action].sbGas, 'GAS経由')}</b></div>`;
     h += `<p class="mb-1 mt-2">${WHY[action]}</p>`;
   }
-  if (s.err) h += `<p class="small text-muted mb-0">※ エラー回は平均に入れていません。エラー率が高いと、平均は「たまたま成功した軽い回」だけの値になり、実際より速く見えます。</p>`;
+  if (s.err) h += `<p class="small text-muted mb-0">※ エラー回は平均に入れていません。エラーが多いと、平均は「軽い回」だけの値になり、実際より速く見えます。</p>`;
   document.getElementById('st-' + action).innerHTML = h;
 }
 
@@ -377,5 +391,4 @@ function resetAll() {
 }
 </script>
 </body>
-</html>
 </html>
