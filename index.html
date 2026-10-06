@@ -65,6 +65,27 @@ summary{font-weight:700;cursor:pointer;color:var(--ink)}
     <p class="lead2 mt-3 mb-0">前回は、ブラウザ → GAS → Supabase という「中継ぎ」を通して測りました。今回は中継ぎ（GAS）を<b>通さず</b>、ブラウザから <span class="sb fw-bold">Supabase</span> に直接つないで、かかった時間を測ります。</p>
   </header>
 
+  <div class="row g-3 mb-4">
+    <div class="col-md-6"><div class="panel h-100" style="border-top:6px solid var(--sb)">
+      <h2 class="sb h4 fw-bold">Supabase</h2>
+      <div class="small text-muted mb-2">たとえるなら「お店のレジ係」</div>
+      <p class="mb-2">お客さん1人ずつに素早く対応するのが得意なデータベースです。社内の入力システムや申請アプリによく使われます。</p>
+      <ul class="mb-0">
+        <li><b>得意：</b>1件の登録・修正・削除、同時に何人もが書き込む場面</li>
+        <li><b>苦手：</b>何百万件もの全体集計、重い検索（制限時間を超えると止まる）</li>
+      </ul>
+    </div></div>
+    <div class="col-md-6"><div class="panel h-100" style="border-top:6px solid var(--bq)">
+      <h2 class="bq h4 fw-bold">BigQuery</h2>
+      <div class="small text-muted mb-2">たとえるなら「巨大な計算室」</div>
+      <p class="mb-2">大量のデータをまとめて一気に集計するのが得意な、Googleのデータベースです。売上分析やログ分析に使われます。</p>
+      <ul class="mb-0">
+        <li><b>得意：</b>数百万〜数億件の集計、Googleアカウントでの権限管理</li>
+        <li><b>苦手：</b>1件ずつの細かい更新（依頼を出す手間がかかる）</li>
+      </ul>
+    </div></div>
+  </div>
+
   <div class="panel mb-4">
     <h2 class="h5 fw-bold mb-2">何を確かめるの？</h2>
     <p class="mb-2">GAS経由の結果には、データベース本体の時間のほかに、<b>GASが間に入る時間</b>も含まれています。荷物を届けるときに、直接届けるか、中継所を通すかの違いです。</p>
@@ -153,11 +174,40 @@ summary{font-weight:700;cursor:pointer;color:var(--ink)}
   </section>
 
   <section class="panel mb-4">
+    <h2 class="h4 fw-bold mb-3">このテストでわかること</h2>
+    <table class="table mb-3" style="font-size:1.05rem">
+      <thead><tr><th>やりたいこと</th><th class="sb">Supabase</th><th class="bq">BigQuery</th></tr></thead>
+      <tbody>
+        <tr><td>1件ずつ登録・修正する<br><span class="text-muted small">（入力フォーム、申請、勤怠など）</span></td><td>◎ 速い（直通で0.1秒前後）</td><td>△ 毎回1秒以上かかる</td></tr>
+        <tr><td>条件を指定して探す</td><td>○ ふだんは速い。ただし該当が多い文字では、時間切れになることがある</td><td>○ 毎回ほぼ同じ時間（約1.2秒）</td></tr>
+        <tr><td>大量データの集計<br><span class="text-muted small">（売上分析、ログ分析など）</span></td><td>○ 110万件ならまだ速い。数千万件以上では遅くなっていく</td><td>◎ 件数が増えても安定</td></tr>
+      </tbody>
+    </table>
+    <p class="mb-2"><b>結論：</b>どちらが優れているかではなく、<b>仕事によって向き不向きが違います。</b></p>
+    <ul class="mb-3">
+      <li>日々のデータを入力・修正する業務アプリ → <span class="sb fw-bold">Supabase</span> のようなデータベース</li>
+      <li>溜まったデータを分析する → <span class="bq fw-bold">BigQuery</span></li>
+      <li>両方必要なら、入力は Supabase、分析は BigQuery にコピーして使い分けるのが定番です。</li>
+    </ul>
+    <div class="about sm">
+      <b>この測定の限界</b>
+      <ul class="mb-0 mt-1">
+        <li>BigQuery は、ブラウザから直接つないでいません。GAS経由の値なので、約1秒の中継ぎ時間が含まれます。</li>
+        <li>約110万件の集計では、Supabase（直通）も十分に速く、BigQueryの強みは見えにくいです。差が大きくなるのは、数千万件以上からです。</li>
+        <li>実験2は、探す文字によって結果が大きく変わります。測定は各5〜10回で、通信の状況によってもぶれます。</li>
+        <li>平均は遅い回に引っ張られるので、「ふだんの速さ」は<b>中央値</b>を見てください。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="panel mb-4">
     <h2 class="h5 fw-bold mb-2">用語メモ</h2>
     <details><summary>直通とGAS経由は何が違うの？</summary><p class="mb-1 mt-1">GAS経由は「ブラウザ → GAS → Supabase」と2回の通信が必要です。直通は「ブラウザ → Supabase」の1回だけです。そのぶん直通のほうが、通常は1秒ほど速くなります。</p></details>
     <details><summary>ミリ秒（ms）とは？</summary><p class="mb-1 mt-1">1000分の1秒です。「800ms」は約0.8秒です。</p></details>
     <details><summary>「時間切れ」のエラーとは？</summary><p class="mb-1 mt-1">処理に約3秒以上かかると、Supabaseが自動で止める決まりです。これを「タイムアウト」と呼びます。故障ではなく、みんなで使うデータベースを重い処理から守る安全装置です。通信が一時的に失敗したときも、エラーになります。</p></details>
     <details><summary>JOIN（ジョイン）とは？</summary><p class="mb-1 mt-1">別々の表を、共通の項目（今回は社員のID）でつなげて1つの表のように扱うことです。</p></details>
+    <details><summary>OLTP と OLAP とは？</summary><p class="mb-1 mt-1">OLTP は「日々の入力・更新が中心」のデータベース（Supabaseなど）、OLAP は「溜まったデータの分析が中心」のデータベース（BigQueryなど）を指す言葉です。</p></details>
+    <details><summary>中央値とは？</summary><p class="mb-1 mt-1">測った時間を小さい順に並べたときの、真ん中の値です。ときどき混ざる極端に遅い回に引っ張られないので、「ふだんの速さ」を表すのに向いています。</p></details>
     <details><summary>なぜ5回測って平均を出すの？</summary><p class="mb-1 mt-1">通信の混み具合などで、1回ごとの時間は大きくぶれます。数回測って平均を見ると、全体の傾向がつかみやすくなります。</p></details>
   </section>
 
@@ -184,7 +234,7 @@ const REF = {
 const WHY = {
   add:'直通は、GASという中継ぎがない分、通信が1回で済みます。登録は1件の書き込みだけなので、差の大部分は「GASを通す時間」と考えられます。',
   search:'検索の速さは、探す文字に該当する人の数で大きく変わります。該当する人が少ない文字は一瞬で終わりますが、「田中」のように多い文字は、売上を集めて並べ替える作業が増えて遅くなり、時間切れになることがあります。BigQueryは文字によらず、ほぼ同じ時間です。',
-  agg:'集計は2つの表を合体（JOIN）してから全件を計算するため、処理そのものが重いです。GASの中継ぎの差は、全体の中では小さく見えます。'
+  agg:'集計は2つの表を合体（JOIN）してから全件を計算するため、登録や検索より重い処理です。ただ、約110万件ならSupabaseも1秒以内で終わることが多く、BigQueryの強みが目立つのは、データが数千万件以上に増えてからです。'
 };
 
 // ---------------------------------------------------------
