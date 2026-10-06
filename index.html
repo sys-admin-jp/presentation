@@ -1,563 +1,332 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" data-bs-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>【プレゼン用カンペ】ファイルメーカー ➔ Supabase移行</title>
-    <style>
-        /* 自分用カンペのためのシンプルなスタイル（ダークモード・高コントラスト） */
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: sans-serif;
-            line-height: 1.6;
-            font-size: 18px;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            padding-top: 80px; /* 固定ヘッダー用の余白 */
-        }
-        h1 {
-            color: #ffffff;
-            border-bottom: 2px solid #444;
-            padding-bottom: 10px;
-            margin-top: 0;
-        }
-        h2 {
-            color: #66b3ff;
-            margin-top: 30px;
-            border-left: 5px solid #66b3ff;
-            padding-left: 10px;
-        }
-        h3 {
-            color: #ffcc00;
-            margin-top: 30px;
-            border-bottom: 1px dashed #555;
-            padding-bottom: 5px;
-        }
-        
-        /* 大項目ナビゲーション（固定ヘッダー） */
-        .main-nav {
-            background-color: #1e1e1e;
-            padding: 10px 15px;
-            border-radius: 0 0 8px 8px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            border-bottom: 2px solid #333;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
-        }
-        .main-nav-btn {
-            background-color: transparent;
-            color: #aaa;
-            border: 2px solid transparent;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 18px;
-            transition: all 0.2s;
-        }
-        .main-nav-btn:hover {
-            color: #ffffff;
-            background-color: #333;
-        }
-        .main-nav-btn.active {
-            color: #66b3ff;
-            border-bottom: 2px solid #66b3ff;
-            background-color: #2a2a2a;
-        }
-
-        /* セクション管理 */
-        .main-section {
-            display: none;
-            animation: fadeIn 0.4s;
-        }
-        .main-section.active {
-            display: block;
-        }
-
-        /* ト書き（行動指示）用のスタイル */
-        .direction {
-            background-color: #2b2400;
-            color: #ffdd55;
-            padding: 10px;
-            margin: 20px 0 10px 0;
-            border-left: 5px solid #ffcc00;
-            font-weight: bold;
-        }
-        /* セリフ・本文用のスタイル */
-        .speech {
-            background-color: #1e1e1e;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-left: 5px solid #4CAF50;
-            border-radius: 3px;
-        }
-        /* 特別な警告・リスク説明用のスタイル */
-        .speech-risk {
-            background-color: #2a1b1b;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-left: 5px solid #ff5555;
-            border-radius: 3px;
-        }
-        
-        /* Q&A用のスタイル */
-        .qa-box {
-            background-color: #1e1e1e;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-left: 5px solid #66b3ff;
-            border-radius: 3px;
-        }
-        .question {
-            font-weight: bold;
-            color: #99ccff;
-            font-size: 1.2em;
-            margin-bottom: 10px;
-        }
-        
-        /* 用語解説用のスタイル */
-        .term-box {
-            background-color: #1e1e1e;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-left: 5px solid #4CAF50;
-            border-radius: 3px;
-        }
-        .term-title {
-            font-weight: bold;
-            color: #81c784;
-            display: block;
-            margin-bottom: 5px;
-            font-size: 1.1em;
-        }
-        
-        strong { color: #ffee00; }
-        
-        /* サブタブ切り替え用のスタイル（Q&A内） */
-        .sub-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-            margin-top: 20px;
-        }
-        .sub-tab-btn {
-            background-color: #333;
-            color: #ffffff;
-            border: 1px solid #555;
-            padding: 10px 15px;
-            cursor: pointer;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 16px;
-            transition: all 0.2s;
-        }
-        .sub-tab-btn:hover { background-color: #444; }
-        .sub-tab-btn.active {
-            background-color: #66b3ff;
-            color: #121212;
-            border-color: #66b3ff;
-        }
-        .sub-tab-content {
-            display: none;
-            animation: fadeIn 0.4s;
-        }
-        .sub-tab-content.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Supabase 直通テスト</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+:root{--sb:#35d58f;--bq:#6ea8ff;--ink:#f2f5f8;--mute:#b9c2cc;--line:#39424c;--panel:#15191e;--panel-2:#1b2026}
+body{font-family:'Zen Kaku Gothic New','Hiragino Sans','Yu Gothic',sans-serif;font-size:20px;background:#000;color:var(--ink);line-height:1.85}
+.wrap{max-width:980px}
+h1{font-weight:900;font-size:clamp(2rem,5vw,3rem);line-height:1.3}
+.sb{color:var(--sb)}.bq{color:var(--bq)}
+.lead2{color:var(--mute);font-size:1.15rem}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:1.4rem 1.5rem}
+.sec h3{font-size:1.4rem;font-weight:900}
+.about{background:var(--panel-2);border-left:4px solid #66727f;border-radius:0 8px 8px 0;padding:.8rem 1rem;font-size:1.05rem}
+.form-label{font-size:1.1rem}
+.form-control,.form-select{background:#20262d;color:var(--ink);border-color:#4a5562;font-size:1.1rem}
+.form-control:focus,.form-select:focus{background:#20262d;color:var(--ink);border-color:#7f8a96;box-shadow:0 0 0 .2rem rgba(255,255,255,.08)}
+.btn{font-weight:700;font-size:1.1rem;padding:.55rem .9rem}
+.btn-sb{background:var(--sb);border-color:var(--sb);color:#05140d}.btn-sb:hover{background:#2bb97b;color:#05140d}
+.btn-sb-o{border:2px solid var(--sb);color:var(--sb);background:transparent}.btn-sb-o:hover{background:var(--sb);color:#05140d}
+.res{border:1px solid var(--line);border-left:5px solid var(--sb);border-radius:8px;padding:.8rem 1rem;min-height:84px;background:var(--panel-2)}
+.res .ms{font-size:2.4rem;font-weight:900;font-variant-numeric:tabular-nums;line-height:1.2;color:var(--sb)}
+.res .ms small{font-size:1.05rem;font-weight:500;color:var(--mute)}
+.ph{color:var(--mute);font-size:1rem}
+.tw{max-height:260px;overflow:auto}.tw table{font-size:.9rem}
+.table{--bs-table-bg:transparent}
+.stat{margin-top:.9rem;border-radius:8px;background:#332d12;border:1px solid #7d6d2b;padding:.9rem 1.1rem;font-size:1.05rem}
+.stat .head{font-weight:900}
+.chips span{display:inline-block;background:#20262d;border:1px solid var(--line);border-radius:6px;padding:0 .5rem;margin:0 .3rem .3rem 0;font-size:.95rem;font-variant-numeric:tabular-nums}
+.chips span.err{color:#ffd5d8;border-color:#8c3b42}
+pre#report{background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:1rem;color:var(--ink);font-size:1rem;white-space:pre-wrap;font-family:inherit}
+#overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);display:none;align-items:center;justify-content:center;z-index:2000}
+#overlay.show{display:flex}
+.ov{background:#171b20;color:var(--ink);border:1px solid var(--line);padding:1.6rem 2.2rem;border-radius:12px;text-align:center}
+.small{font-size:.95rem}
+.text-muted{color:var(--mute)!important}
+</style>
 </head>
 <body>
 
-    <nav class="main-nav">
-        <button class="main-nav-btn active" onclick="switchMainSection(event, 'sec-script')">🎤 1. 台本</button>
-        <button class="main-nav-btn" onclick="switchMainSection(event, 'sec-qa')">🛡️ 2. 想定Q&A</button>
-        <button class="main-nav-btn" onclick="switchMainSection(event, 'sec-glossary')">📖 3. 用語解説</button>
-        <button class="main-nav-btn" onclick="switchMainSection(event, 'sec-appendix')">📊 4. 補足資料</button>
-    </nav>
+<div id="overlay"><div class="ov">
+  <div class="spinner-border mb-3" style="width:2.8rem;height:2.8rem" role="status"></div>
+  <div class="fw-bold" id="ovLabel">実行中…</div>
+</div></div>
 
-    <div id="sec-script" class="main-section active">
-        <h1>🎤 プレゼン台本</h1>
+<div class="container wrap py-4 py-md-5">
 
-        <div class="direction">
-            🖥️ 【スライド1ページ目（タイトル）を表示】
-        </div>
-        <div class="speech">
-            「本日はお時間をいただき、ありがとうございます。<br>
-            現在社内で利用しているファイルメーカーの業務を、新しいデータベースインフラである『Supabase』へ移行する件についてご提案いたします。<strong>よろしくお願いいたします。</strong><br><br>
-            結論から申し上げますと、この移行によって<strong>『劇的なコスト削減』</strong>と<strong>『現場の作業効率・セキュリティの向上』</strong>を同時に実現できます。百聞は一見に如かずですので、まずは実際に構築した画面をご覧ください。」
-        </div>
+  <header class="mb-4">
+    <h1><span class="sb">Supabase</span> 直通テスト</h1>
+    <p class="lead2 mt-3 mb-0">GAS を通さず、ブラウザから Supabase に直接つないで時間を測ります。各項目の平均値をテキストで表示し、GAS経由の結果と比べます。</p>
+  </header>
 
-        <div class="direction">
-            💻 (ここでスライドから実際のブラウザ画面へ切り替える)<br>
-            【実機デモ】1つ目の画面（白背景）を映す
-        </div>
-        <div class="speech">
-            「今ご覧いただいているのは、専用ソフトではなく普通のWebブラウザです。<br><br>
-            ここで、今回のシステムが持つ<strong>『圧倒的な画面の自由度』</strong>について実演いたします。<br>
-            今映しているこちらの白い画面は、<strong>現在のファイルメーカーの見た目や使い勝手に限りなく近づけた『通常版』</strong>です。これにより、現場の担当者が明日からでも全く迷わずに使えるよう配慮しています。<br><br>
-            一方で、裏側のデータベース（金庫）は同じものを使いながら、別の画面も作ってみました。」
-        </div>
+  <div class="panel mb-4">
+    <h2 class="h5 fw-bold mb-2">遊び方</h2>
+    <ol class="mb-2">
+      <li>各実験で「5回連続で測定」を押すと、同じ操作を5回続けて実行し平均を出します。</li>
+      <li>「1回だけ」を押すと1回分が追加されます。何回でも積み上がり、平均は自動で更新されます。</li>
+      <li>一番下の「平均値の比較」で、直通とGAS経由の差をテキストで確認できます。</li>
+    </ol>
+    <div class="small text-muted">※ エラーになった回は平均から除外し、エラー回数として別に数えます。</div>
+  </div>
 
-        <div class="direction">
-            💻 【実機デモ】2つ目の画面（黒背景）に切り替える<br>
-            ※クリックしてコピーされる様子を実演する
-        </div>
-        <div class="speech">
-            「こちらがもう一つのパターンです。<br>
-            背景を長時間見ても目が疲れないダークモードに変更し、項目の配置を最適化しました。さらに、例えばこちらの<strong>『会社名』の枠を1クリックするだけで、文字が自動でコピーされる機能</strong>を追加しています。<br><br>
-            ほんの小さな機能ですが、これだけでも日々のメールや見積書へのコピペの手間が劇的に減ります。<br><br>
-            ファイルメーカーのような『決まった枠組み』の中ではなく、純粋なWeb技術を採用したことで、<strong>『今の慣れた画面』と『さらに業務効率を追求した新しい画面』を、用途に合わせて自由に、いくつでも作る</strong>ことができます。」
-        </div>
-
-        <div class="direction">
-            🖥️ (デモを終了し、スライドへ戻る)<br>
-            【スライド2ページ目（課題解決）を表示】
-        </div>
-        <h3>メリット①②：Web化とセキュリティの抜本的強化</h3>
-        <div class="speech">
-            「先ほどのデモ画面の裏側にある、セキュリティのメリットをまとめたのがこちらのスライドです。<br><br>
-            Web化により、セキュリティ管理も劇的にシンプルになります。<strong>現在、我が社は全社員がGoogle Workspaceを利用しておりますが、今回のシステムはそれと完全に連動</strong>させて設計しました。<br>
-            そのため、万が一端末を紛失したり、社員が退職したりした際も、個別のシステムで設定をいじる必要はなく、<strong>大元のGoogleアカウントを停止するだけで、即座にこちらのシステムからも強制ログアウトされ、アクセスを全遮断</strong>できます。<br><br>
-            さらに、裏側の『データベース本体（金庫）』には管理者以外アクセスできない設計のため、致命的なデータ漏洩を物理的に防ぐことができます。」
-        </div>
-
-        <div class="direction">
-            📊 【スライド3ページ目（コストの棒グラフ）を表示】
-        </div>
-        <h3>メリット③：劇的なコストダウン</h3>
-        <div class="speech">
-            「続いてコスト面です。詳細な数字は<strong>お手元にお配りした資料の『比較表（スライド7、8）』</strong>に記載しておりますが、全体像を分かりやすくした<strong>前のスクリーンのグラフ</strong>をご覧ください。<br><br>
-            現在利用しているファイルメーカーはユーザー数課金のため、最小の5ライセンス運用でも<strong>月額約9,000円、年額で約11万円</strong>のコストがかかっています。<br>
-            これを全社員43名に展開しようとすると、<strong>月額約4万円、年額では約47万円</strong>まで固定費が跳ね上がってしまいます。<br><br>
-            一方、今回採用したSupabaseは『インフラ固定課金』です。本格運用向けの有料版に移行しても、<strong>月額は約4,000円、年額で約4万8千円</strong>で済みます。<br><br>
-            つまり、全社員に展開したとしても、現状のたった5名での運用コスト（11万円）の半分以下になるという<strong>『コストの逆転現象』</strong>が起きます。」
-        </div>
-
-        <div class="direction">
-            ⚙️ 【スライド4ページ目（インフラ余裕度の図解）を表示】
-        </div>
-        <h3>メリット③続き：圧倒的なインフラ余裕度</h3>
-        <div class="speech">
-            「さらに、こちらの<strong>図</strong>が示す通り、インフラの余裕度も圧倒的です。<br>
-            月額4,000円のプランに対し、現在のテスト運用実績では、<strong>データベース使用率は上限のわずか『0.35%』、通信量に至っては『0.0012%』</strong>と、事実上使い切れないほどの容量を確保しています。<br><br>
-            そして最も重要なのが、アカウント数は『5万人』まで追加費用が一切かかりません。新入社員が増えても、Googleアカウントを発行するだけでアクセス権を配り放題となります。」
-        </div>
-
-        <div class="direction">
-            ⚠️ 【スライド5ページ目（将来リスク）を表示】
-        </div>
-        <h3>⚠️ 懸念事項：将来の料金改定リスクと「究極の防衛策」</h3>
-        <div class="speech-risk">
-            「一方で、経営的視点から<strong>『将来の料金改定リスク』</strong>についても正直にお伝えしておきます。<br>
-            他社サービス同様、将来的に無料枠の縮小や値上げが行われる可能性は想定しておく必要があります。しかし、仮に値上げがあっても、当社にとっては問題ありません。理由は3点です。<br><br>
-            第一に<strong>『圧倒的なコスト差』</strong>。値上げされてもファイルメーカーよりはるかに安価です。<br>
-            第二に<strong>『人数課金ではない構造』</strong>。雪だるま式にコストが膨らむ旧仕様には戻りません。<br>
-            そして第三に、これが最強の防衛策ですが<strong>『いつでも他社に引っ越せる』</strong>点です。」
-        </div>
-
-        <h3>メリット④：データ資産の独立</h3>
-        <div class="speech">
-            「今回のシステムの中身は、世界標準の技術である『PostgreSQL』です。万が一理不尽な値上げがあっても、<strong>データを汎用形式で取り出し、AWSなど他社の安価なシステムへ即座に移行</strong>できます。<br>
-            『会社の財産であるデータを、特定の1社に縛られずに完全に自社でコントロールできる』のが最大の強みです。」
-        </div>
-
-        <div class="direction">
-            🏁 【スライド6ページ目（まとめ）を表示】
-        </div>
-        <div class="speech">
-            「このように、新しいインフラへ視野を広げることで、将来的なコストやITリスクの課題を根本から解決できる可能性を持っています。<br>
-            まずは当社の未来のシステム基盤として、こういった強力な選択肢があることを共有させていただきました。以上で終わります。ご清聴ありがとうございました。」
-        </div>
+  <!-- 実験1 -->
+  <section class="panel sec mb-4">
+    <h3>実験1　売上を1件登録する</h3>
+    <div class="about mb-3"><b>見どころ：</b>データを書き込む速さ。</div>
+    <div class="row g-3">
+      <div class="col-md-4"><label class="form-label fw-bold">氏名</label><input id="addName" class="form-control" placeholder="例：山田太郎" maxlength="100"></div>
+      <div class="col-md-4"><label class="form-label fw-bold">部署</label>
+        <select id="addDept" class="form-select"><option>営業部</option><option>開発部</option><option>人事部</option><option>経理部</option><option>マーケティング部</option></select></div>
+      <div class="col-md-4"><label class="form-label fw-bold">売上金額（円）</label><input id="addAmount" type="number" class="form-control" value="10000" min="0" step="1"></div>
     </div>
-
-    <div id="sec-qa" class="main-section">
-        <h1>🛡️ 経営陣からの想定Q&A</h1>
-
-        <div class="sub-tabs">
-            <button class="sub-tab-btn active" onclick="switchSubTab(event, 'qa-cost')">💰 コスト・契約</button>
-            <button class="sub-tab-btn" onclick="switchSubTab(event, 'qa-security')">🛡️ セキュリティ・データ</button>
-            <button class="sub-tab-btn" onclick="switchSubTab(event, 'qa-tech')">⚙️ 運用・移行</button>
-            <button class="sub-tab-btn" onclick="switchSubTab(event, 'qa-basic')">❓ 基本的な疑問</button>
-        </div>
-
-        <div id="qa-cost" class="sub-tab-content active">
-            <div class="qa-box">
-                <div class="question">Q. ファイルメーカーに比べて安すぎるが、なぜSupabaseはここまで安価なのか？安かろう悪かろうではないのか？</div>
-                <div>
-                    「安価な理由は主に2つあります。<br>
-                    1つ目は<strong>『オープンソース技術の活用』</strong>です。ゼロから独自のシステムを開発しているのではなく、世界中の天才エンジニアが無償で改良を続ける『共有の設計図』を土台にしているため、莫大な自社開発費が原価に乗っていません。<br>
-                    2つ目は<strong>『Amazonサーバーのまとめ買いとシェア』</strong>です。Supabaseの運営会社が、Amazon（AWS）の巨大なサーバーを世界規模で一括契約（まとめ買い）して安く仕入れ、それを世界中のユーザーで小分けにして使っているからです。イメージとしては、巨大な倉庫を丸ごと安く仕入れて、当社に必要なスペースだけを格安で間借りしている状態です。<br><br>
-                    決して『安かろう悪かろう』ではなく、ファイルメーカーのような『使う人の数で課金する古いモデル』から、<strong>『使った場所・通信量だけで適正に課金する現代のシェアリングモデル』へ移行するだけ</strong>ですので、品質や安全性は世界最高レベルを保ったままコストダウンが可能です。」
-                </div>
-            </div>
-
-            <div class="qa-box">
-                <div class="question">Q. 全員にアカウントを作ったら、結局ユーザーごとの課金で高くなるのでは？</div>
-                <div>
-                    「ご安心ください。<strong>『5万人』までは何人アカウントを作っても追加費用はゼロ</strong>です。<br>
-                    ファイルメーカーは『使う人の数』でお金を取るモデルでしたが、今回は『通信の量』でお金を取るモデルです。そのため、全社員やパートさんに1人1つ専用アカウントを無料で配り放題になります。」
-                </div>
-            </div>
-
-            <div class="qa-box">
-                <div class="question">Q. 海外サービス特有の「突然の値上げ」があったらどうするのか？</div>
-                <div>
-                    「先ほどもご説明した通り、値上げのリスクは常に想定していますが、<strong>『中身が世界標準の技術』であるため、最悪の場合は他のサービスへ逃げることができます。</strong><br>
-                    ファイルメーカーのように『そのソフトがないとデータが見られない』という人質状態ではないため、理不尽な価格改定があれば、データを持ってAWSなどの他社の安価なインフラへすぐに引っ越せる体制を整えています。」
-                </div>
-            </div>
-
-            <div class="qa-box">
-                <div class="question">Q. Webシステムを動かすための「サーバー代」は別でかからないのか？</div>
-                <div>
-                    「かかりません。今回は画面を表示する裏側の仕組み（GAS）に、当社がすでに利用しているGoogleの標準インフラをそのまま活用する設計にしています。<br>
-                    Googleの強固なシステムを『画面用の無料サーバー』として賢く利用するため、別途Webサーバーを契約するような維持費は『完全にゼロ』で運用できます。」
-                </div>
-            </div>
-
-            <div class="qa-box">
-                <div class="question">Q. 海外サービスなので支払いはドル建てになると思うが、為替変動のリスクはどの程度か？</div>
-                <div>
-                    「おっしゃる通りドル建て（月額$25）の決済となります。ただし、元の金額が約4,000円と非常に安価なため、仮に急激な円安が進んだとしても影響は月数百円程度に収まります。<br>
-                    現状のファイルメーカーを全社員に拡大した際の『年間数十万円のコスト増』に比べれば、為替リスクは完全に吸収できる極めて微小な範囲です。」
-                </div>
-            </div>
-        </div>
-
-        <div id="qa-security" class="sub-tab-content">
-            <div class="qa-box">
-                <div class="question">Q. Supabaseという聞いたことのない海外サービスにデータを預けて信用できるのか？有名企業の導入実績はあるのか？</div>
-                <div>
-                    「ご懸念はもっともですが、すでに世界的な大企業も導入しており、システムの中身も『世界で最も実績のある技術』で構成されています。信用できる理由は以下の3点です。<br><br>
-                    第一に、<strong>海外・国内の圧倒的な導入実績</strong>です。セキュリティに極めて厳しい世界最大級の監査法人<strong>『PwC』</strong>や、世界的ヘルスケア企業の<strong>『ジョンソン・エンド・ジョンソン』</strong>が自社システムに導入しているほか、国内でも<strong>『NOT A HOTEL（ノットアホテル）』</strong>などの先進的な企業がこぞって採用を始めています。<br><br>
-                    第二に、データの物理的な保管場所は<strong>『AmazonのAWS』</strong>を使っています。これは、トヨタ自動車やソニー、パナソニックといった日本の大手製造業の基幹システムでも当たり前のように使われている、世界で最も堅牢なサーバーです。<br><br>
-                    第三に、データベースの中身は30年以上の歴史がある世界標準技術『PostgreSQL』が使われており、Supabase自体も<strong>世界で最も厳しいクラウド安全基準（SOC2（ソックツー））をクリア</strong>しています。<br><br>
-                    つまり、外側の名前こそ新しいですが、すでに『PwCやジョンソン・エンド・ジョンソンが認めた国際基準のセキュリティ』と『トヨタと同じ強固なサーバー』の組み合わせで作られているため、当社の業務データを預けても全く問題ありません。」
-                </div>
-            </div>
-
-            <div class="qa-box">
-                <div class="question">Q. 万が一クラウドが壊れた時のバックアップはどうなっているのか？</div>
-                <div>
-                    「万が一のクラウド障害に備えた<strong>『BCP対策』</strong>も構築可能です。<br>
-                    毎日深夜に全データを自動で標準的な文字データ（CSV）に変換し、当社のGoogleドライブへ暗号化して自動保存する仕組みを用意します。手元のGoogleドライブのデータからすぐに業務を再開できる二重の安全網を張っています。」
-                </div>
-            </div>
-
-            <div class="qa-box">
-                <div class="question">Q. 退職した社員のアクセス権限を消し忘れて、外部から見られてしまうリスクはないのか？</div>
-                <div>
-                    「今回はGoogle Workspaceのシステムと連動させているため、退職時に会社のGoogleアカウントを停止するだけで、自動的にこちらのシステムにも一切アクセスできなくなります。<br>
-                    個別のシステムごとに権限を消す手間がなく、消し忘れによる情報漏洩のリスクを物理的に遮断できます。」
-                </div>
-            </div>
-
-            <div class="qa-box">
-                <div class="question">Q. クラウドサービスということは、Supabaseの運営会社の人間が当社のデータを覗き見できるのではないか？</div>
-                <div>
-                    「Supabaseは『SOC2』という非常に厳しい国際セキュリティ基準をクリアしており、内部犯行や不正アクセスを防ぐ強固な監査体制が敷かれています。<br>
-                    正当な理由と厳格な承認プロセスなしに運営者が顧客のデータベースにアクセスすることは物理的・制度的に不可能となっており、国内の金融機関と同等レベルの安全性が確保されています。」
-                </div>
-            </div>
-        </div>
-
-        <div id="qa-tech" class="sub-tab-content">
-            <div class="qa-box">
-                <div class="question">Q. Webシステムになると『あなたしか直せない（属人化）』にならないか？</div>
-                <div>
-                    「むしろ、将来的な人材確保の面では今回の方が有利です。<br>
-                    ファイルメーカーは独自のスキルが必要ですが、今回採用した技術は<strong>IT業界の世界標準</strong>です。万が一私が不在になっても、一般的なWeb技術者であれば誰でも引き継ぎができるため、会社としての技術的リスクは下がります。」
-                </div>
-            </div>
-
-            <div class="qa-box">
-                <div class="question">Q. 現在のファイルメーカーの過去データは、本当に欠損なく全て移せるのか？</div>
-                <div>
-                    「はい、可能です。ファイルメーカーのデータを一度CSVという標準的な文字データで書き出し、それをそのままSupabaseに流し込むことで、過去の蓄積データを1件残らず移行できます。<br>
-                    既にバックグラウンドでの移行テストを実施し、文字化けやデータの欠損がないことを確認済みです。」
-                </div>
-            </div>
-
-            <div class="qa-box">
-                <div class="question">Q. 新しいシステムになると、現場の作業員が操作に戸惑って業務が停滞しないか？</div>
-                <div>
-                    「ご安心ください。新しい画面は、今のファイルメーカーの使い勝手をベースにしつつ、Webならではのより直感的な操作ができるよう設計しています。<br>
-                    いきなり全社で切り替えるのではなく、まずは一部の業務でテスト運用（並行稼働）を行い、現場の声を反映して微調整を重ねてから本格稼働するため、現場の混乱を未然に防ぎます。」
-                </div>
-            </div>
-        </div>
-
-        <div id="qa-basic" class="sub-tab-content">
-            <div class="qa-box">
-                <div class="question">Q. 「Webサイト（Webアプリ）になる」とは、具体的にどういうことか？</div>
-                <div>
-                    「専用ソフトをパソコンに入れる必要がなくなり、YahooやAmazonを見るのと同じように、インターネットのURLを開くだけで使えるシステムになるということです。<br>
-                    会社のPCでも個人のスマホでも利用でき、常に全員が最新のシステムを使える状態になるため、システム管理の手間が事実上ゼロになります。」
-                </div>
-            </div>
-        </div>
+    <div class="d-flex flex-wrap gap-2 mt-3">
+      <button class="btn btn-sb" onclick="runMany('add',5)">5回連続で測定</button>
+      <button class="btn btn-sb-o" onclick="runMany('add',1)">1回だけ</button>
     </div>
+    <div class="res mt-3" id="r-add"><span class="ph">結果がここに出ます</span></div>
+    <div class="stat" id="st-add"><span class="ph">まだ測定していません</span></div>
+  </section>
 
-    <div id="sec-glossary" class="main-section">
-        <h1>📖 とっさの専門用語・解説リスト</h1>
-
-        <div class="term-box">
-            <span class="term-title">■ ジョンソン・エンド・ジョンソン、Mozillaなど</span>
-            「Supabaseを実際に導入している世界的な大企業の例です。誰もが知る大企業も、このシステムを安全だと認めて使っている、という説得材料として名前を出しています。（IT業界ではパスワード管理大手の1Password等も導入しています）」
-        </div>
-
-        <div class="term-box">
-            <span class="term-title">■ PwC（ピーダブリューシー / 世界最大級の監査法人）</span>
-            「世界四大監査法人の一つで、超巨大コンサルティング企業です。<strong>他社の極秘の財務データや買収（M&A）情報を扱うような、セキュリティに最も厳しい世界的企業</strong>も、自社のシステムとしてSupabaseを安全だと認めて導入している、という究極の説得材料として用意しています。」
-        </div>
-
-        <div class="term-box">
-            <span class="term-title">■ NOT A HOTEL（ノットアホテル）</span>
-            「『家をスマホで買う』という新しいビジネスモデルで急成長している日本の先進的な企業です。国内でもセキュリティと最新技術に感度の高い企業からSupabaseの導入が始まっている事例として挙げています。」
-        </div>
-
-        <div class="term-box">
-            <span class="term-title">■ フロントエンド（画面）とデータベース</span>
-            「フロントエンドは<strong>『接客窓口』</strong>、データベースは<strong>『奥の金庫』</strong>と考えてください。今回は窓口（画面）を普通のWebサイトとして切り離したため、少し使うだけの人に高額な専用ソフトを買わせる必要がなくなりました。」
-        </div>
-
-        <div class="term-box">
-            <span class="term-title">■ AWS（Amazon Web Services）</span>
-            「Amazonが提供している、世界で一番巨大で安全な『インターネット上の金庫番（サーバー貸し出し）』です。<strong>トヨタ自動車や日本のデジタル庁、メガバンクも軒並みこのAmazonのインフラを使っています。</strong>」
-        </div>
-
-        <div class="term-box">
-            <span class="term-title">■ PostgreSQL（ポストグレス・キューエル）</span>
-            「Supabaseの中で動いている『データベースのエンジン部分』です。世界で最も信頼されているオープンソース技術の1つで、<strong>30年以上の歴史があり、世界中のインフラを支えています。</strong>」
-        </div>
-
-        <div class="term-box">
-            <span class="term-title">■ オープンソース</span>
-            「ソフトウェアの設計図がインターネット上に無料で公開されている仕組みです。<strong>『クックパッドに公開されている世界中で大人気のレシピ』</strong>のようなもので、世界中の天才エンジニアが監視・改良しているため、密室で作るシステムより安全性が高いです。」
-        </div>
-
-        <div class="term-box">
-            <span class="term-title">■ ベンダーロックイン</span>
-            「<strong>『データが人質に取られている状態』</strong>のことです。独自のソフトがないと過去のデータが見られない状態だと、急な値上げにも従うしかありません。今回の最大の目的はこの人質状態からの脱却です。」
-        </div>
-
-        <div class="term-box">
-            <span class="term-title">■ CSVファイル</span>
-            「データ移行やバックアップで使う<strong>『すっぴんの文字データ』</strong>です。Excelのような色や罫線のお化粧がないため容量が圧倒的に軽く、どんなシステムにも確実に引っ越しができる最強のデータ形式です。」
-        </div>
-
-        <div class="term-box">
-            <span class="term-title">■ BCP対策（事業継続計画）</span>
-            「万が一の大規模災害やシステム障害が起きた際に、<strong>会社の大事な業務を止めない、あるいはすぐに復旧させるための『備え』</strong>のことです。今回は、万が一システム本体が停止しても、手元のGoogleドライブに保存したバックアップデータから業務を継続・復旧できる仕組みをBCP対策としています。」
-        </div>
-
-        <div class="term-box">
-            <span class="term-title">■ SOC2（ソックツー / クラウド安全基準）</span>
-            「アメリカ公認会計士協会が定めた、<strong>『このシステムは機密情報を預けても絶対に安全か』を審査する、世界で最も厳しい国際認証</strong>の一つです。Supabaseはこの審査をクリアしているため、第三者機関からも安全性が客観的に証明されています。」
-        </div>
+  <!-- 実験2 -->
+  <section class="panel sec mb-4">
+    <h3>実験2　名前の一部からデータを探す</h3>
+    <div class="about mb-3"><b>見どころ：</b>探す速さ。名前に入力した文字を含む売上を、新しい順に最大50件探します。</div>
+    <label class="form-label fw-bold">探す文字</label>
+    <input id="searchKw" class="form-control" placeholder="例：佐藤 / 太郎 / 0123" style="max-width:420px">
+    <div class="d-flex flex-wrap gap-2 mt-3">
+      <button class="btn btn-sb" onclick="runMany('search',5)">5回連続で測定</button>
+      <button class="btn btn-sb-o" onclick="runMany('search',1)">1回だけ</button>
     </div>
+    <div class="res mt-3" id="r-search"><span class="ph">結果がここに出ます</span></div>
+    <div class="stat" id="st-search"><span class="ph">まだ測定していません</span></div>
+  </section>
 
-    <div id="sec-appendix" class="main-section">
-        <h1>📊 PDF表の詳細解説（突っ込まれた時の防衛用）</h1>
-
-        <div class="qa-box">
-            <div class="question">■ Q. スライドに「現在約6.0%使用（0.028GB）」とあるが、データが増えたらすぐに上限（0.5GB）をパンクするのでは？</div>
-            <div>
-                「鋭いご指摘ありがとうございます。結論から申し上げますと、データが何万件に増えてもパンクする心配は一切ありません。<br><br>
-                スライド上はシステムの仕様に合わせて『GB（ギガバイト）』で表記しておりますが、分かりやすく『MB（メガバイト）』に直してご説明しますね。<br><br>
-                実は、現在消費している<strong>約28MB（0.028GB）</strong>のうち、<strong>約26MB</strong>は『データベースを動かすための初期システム（金庫の枠組み）』の重さです。実際の2,500件の案件データ（文字情報）自体は、紙切れのように軽く、たった<strong>『2MB以下』</strong>しか使っていません。<br><br>
-                例えるなら、『巨大な空っぽの金庫』を1つ置いた時点で部屋を6%占有している状態です。これから金庫の中に『お札（文字データ）』を数万枚追加していっても、金庫自体の大きさは変わらないため、占有率はほとんど上がりません。上限である<strong>500MB（0.5GB）</strong>に対しても、事実上使い切れないほどの広大なスペースを確保しております。」
-            </div>
-        </div>
-
-        <div class="qa-box">
-            <div class="question">■ Q. 「無料版（Freeプラン）」のままで運用しちゃダメなの？</div>
-            <div>
-                「コスト面だけ見れば無料版でも運用可能ですが、業務システムとしては致命的な弱点があります。インフラ余裕度の表にある通り、無料版は『1週間アクセスがないとプロジェクトが自動停止』してしまい、次に誰かが開いた時に起動まで数分待たされるという仕様があります。<br><br>
-                月額4,000円のProプランに移行することで『24時間365日の常時稼働』が保証され、さらに『毎日の自動バックアップ（7日間保持）』機能が追加されるため、会社の基幹システムとしての安全性を担保するためにはProプランが必須と考えております。」
-            </div>
-        </div>
-
-        <div class="qa-box">
-            <div class="question">■ Q. インフラ余裕度の表にある「上限を超過した場合」ってどうなるの？システムが止まるの？</div>
-            <div>
-                「ご安心ください。Proプランでは、万が一上限（データ8GB、通信量250GB）を超過した場合でも、システムが停止することはありません。<br><br>
-                超過した分だけ『1GBあたり約18円（$0.125）』という極めて少額な従量課金が自動で追加される仕組みになっています。現在『0.35%』しか使っていないため、この超過料金が発生することは当面あり得ませんが、万が一データが爆発的に増えてもシステムが止まらない『安全装置』として機能しています。」
-            </div>
-        </div>
-
-        <div class="qa-box">
-            <div class="question">■ Q. ファイルストレージ容量（100GB）って何に使うの？</div>
-            <div>
-                「今回のデータベース（文字情報）とは別に、PDFの設計図面や現場の写真画像などをシステム上に保存する場合に使う『ファイル置き場』の容量です。Proプランならこれが100GBまで標準でついてきます。文字情報だけの業務であれば全く気にする必要のない十分すぎる容量です。」
-            </div>
-        </div>
-
-        <div class="qa-box">
-            <div class="question">■ Q. コスト表の「ファイルメーカーCloud（AWS版）」って何？</div>
-            <div>
-                「仮にファイルメーカーのまま、今回のように『どこからでもWebアクセスできるクラウド環境』を作ろうとした場合のメーカー公式の参考価格です。なんと43名で年額約124万円もかかってしまいます。Supabase（年額4.8万円）に移行することが、いかに自社のITコスト削減に貢献するかがお分かりいただけるかと思います。」
-            </div>
-        </div>
+  <!-- 実験3 -->
+  <section class="panel sec mb-4">
+    <h3>実験3　全データを集計する</h3>
+    <div class="about mb-3"><b>見どころ：</b>データが多いときの計算力。社員表と売上表を JOIN して合計します。</div>
+    <label class="form-label fw-bold">まとめ方</label>
+    <select id="aggKey" class="form-select" style="max-width:320px">
+      <option value="department">部署ごと</option>
+      <option value="user_name">氏名ごと（上位100件）</option>
+    </select>
+    <div class="d-flex flex-wrap gap-2 mt-3">
+      <button class="btn btn-sb" onclick="runMany('agg',5)">5回連続で測定</button>
+      <button class="btn btn-sb-o" onclick="runMany('agg',1)">1回だけ</button>
     </div>
+    <div class="res mt-3" id="r-agg"><span class="ph">結果がここに出ます</span></div>
+    <div class="stat" id="st-agg"><span class="ph">まだ測定していません</span></div>
+  </section>
 
-    <script>
-        // 大項目（メインセクション）の切り替え
-        function switchMainSection(evt, sectionId) {
-            // 全てのメインセクションを非表示にする
-            var i, sections, navBtns;
-            sections = document.getElementsByClassName("main-section");
-            for (i = 0; i < sections.length; i++) {
-                sections[i].classList.remove("active");
-            }
-            
-            // 全てのメインナビゲーションボタンから "active" を削除する
-            navBtns = document.getElementsByClassName("main-nav-btn");
-            for (i = 0; i < navBtns.length; i++) {
-                navBtns[i].classList.remove("active");
-            }
-            
-            // 選択されたセクションを表示し、ボタンをアクティブにする
-            document.getElementById(sectionId).classList.add("active");
-            evt.currentTarget.classList.add("active");
-            
-            // スクロールを一番上に戻す
-            window.scrollTo(0, 0);
-        }
+  <!-- 比較 -->
+  <section class="panel mb-4">
+    <h2 class="h4 fw-bold mb-3">平均値の比較（テキスト）</h2>
+    <pre id="report">まだ測定していません。</pre>
+    <div class="d-flex flex-wrap gap-2">
+      <button class="btn btn-sb" onclick="copyReport()">テキストをコピー</button>
+      <button class="btn btn-outline-secondary" onclick="resetAll()">測定結果をリセット</button>
+    </div>
+    <div class="small text-muted mt-3">GAS経由の平均値は、前回の5回測定（実験2のSupabaseはエラー1回を除く4回）の値です。変更したい場合は、下のコードの <code>REF</code> を書き換えてください。</div>
+  </section>
 
-        // Q&A内のサブタブの切り替え
-        function switchSubTab(evt, tabId) {
-            // 全てのサブタブコンテンツを非表示にする
-            var i, tabContents, tabBtns;
-            tabContents = document.getElementsByClassName("sub-tab-content");
-            for (i = 0; i < tabContents.length; i++) {
-                tabContents[i].classList.remove("active");
-            }
-            
-            // 全てのサブタブボタンから "active" を削除する
-            tabBtns = document.getElementsByClassName("sub-tab-btn");
-            for (i = 0; i < tabBtns.length; i++) {
-                tabBtns[i].classList.remove("active");
-            }
-            
-            // 選択されたサブタブを表示し、ボタンをアクティブにする
-            document.getElementById(tabId).classList.add("active");
-            evt.currentTarget.classList.add("active");
-        }
-    </script>
-</body>
-</html>
+  <p class="small text-muted text-center">デモ用のダミーデータです。<b>個人情報や実在の情報は入力しないでください。</b>登録したデータは、このアプリを使う全員に見えます。</p>
+</div>
+
+<script>
+// ---------------------------------------------------------
+// 設定（ここだけ書き換える）
+// ・キーは必ず「anon（publishable）キー」。service_role キーは絶対に入れない
+// ---------------------------------------------------------
+const SUPABASE_URL = 'https://ufpunwkftnpqgpeisvzh.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmcHVud2tmdG5wcWdwZWlzdnpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExOTMyMTUsImV4cCI6MjEwNjc2OTIxNX0.IGP0b0-qFX9MBd4VFnsoliZ-6SmQBOv2vMoWijGWL90';
+const SEARCH_LIMIT = 50;
+
+// GAS経由の平均値（ミリ秒）。前回の5回測定から算出
+const REF = {
+  add:    { name: '実験1（登録）', sbGas: 1137, bqGas: 1716 },
+  search: { name: '実験2（検索）', sbGas: 1500, bqGas: 1227 },
+  agg:    { name: '実験3（集計）', sbGas: 1209, bqGas: 614 }
+};
+
+// ---------------------------------------------------------
+const runs = { add: [], search: [], agg: [] };   // {ok:true, ms} / {ok:false, error}
+let busy = false;
+
+const esc = v => v == null ? '' : String(v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num = n => Number(n).toLocaleString('ja-JP');
+
+async function rpc(fnName, payload) {
+  const url = SUPABASE_URL.replace(/\/$/, '') + '/rest/v1/rpc/' + fnName;
+  const t0 = performance.now();
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: 'Bearer ' + SUPABASE_ANON_KEY
+    },
+    body: JSON.stringify(payload || {})
+  });
+  const text = await res.text();
+  const data = text ? JSON.parse(text) : null;
+  const ms = Math.round(performance.now() - t0);
+  if (!res.ok) throw new Error('Supabase API error (' + res.status + '): ' + text);
+  return { ms, data };
+}
+
+function getArgs(action) {
+  if (action === 'add') {
+    const name = document.getElementById('addName').value.trim();
+    const dept = document.getElementById('addDept').value;
+    const amt = Number(document.getElementById('addAmount').value);
+    if (!name) throw new Error('氏名を入力してください。');
+    if (name.length > 100) throw new Error('氏名は100文字以内で入力してください。');
+    if (!Number.isInteger(amt) || amt < 0 || amt > 2147483647) throw new Error('売上金額は0以上の整数で入力してください。');
+    return ['add_sale', { p_user_name: name, p_department: dept, p_amount: amt }];
+  }
+  if (action === 'search') {
+    const kw = document.getElementById('searchKw').value.trim();
+    if (!kw) throw new Error('探す文字を入力してください。');
+    return ['search_sales', { p_keyword: kw, p_limit: SEARCH_LIMIT }];
+  }
+  return ['sales_summary', { p_group_by: document.getElementById('aggKey').value }];
+}
+
+async function runMany(action, n) {
+  if (busy) return;
+  let args;
+  try { args = getArgs(action); } catch (e) { alert(e.message); return; }
+  busy = true;
+  try {
+    for (let i = 1; i <= n; i++) {
+      overlay(true, `${REF[action].name}　${i} / ${n} 回目を実行中…`);
+      try {
+        const r = await rpc(args[0], args[1]);
+        runs[action].push({ ok: true, ms: r.ms });
+        renderResult(action, r);
+      } catch (e) {
+        runs[action].push({ ok: false, error: e.message });
+        renderError(action, e.message);
+      }
+      renderStat(action);
+      renderReport();
+    }
+  } finally {
+    overlay(false);
+    busy = false;
+  }
+}
+
+function overlay(on, label) {
+  const o = document.getElementById('overlay');
+  if (on) document.getElementById('ovLabel').textContent = label;
+  o.classList.toggle('show', on);
+}
+
+// ----- 集計 -----
+function stats(action) {
+  const ok = runs[action].filter(r => r.ok).map(r => r.ms);
+  const err = runs[action].length - ok.length;
+  if (!ok.length) return { n: 0, err, avg: null, med: null };
+  const avg = Math.round(ok.reduce((a, b) => a + b, 0) / ok.length);
+  const s = [...ok].sort((a, b) => a - b);
+  const m = Math.floor(s.length / 2);
+  const med = Math.round(s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2);
+  return { n: ok.length, err, avg, med, min: s[0], max: s[s.length - 1] };
+}
+
+function diffText(direct, ref, label) {
+  const d = ref - direct;
+  const pct = Math.round(Math.abs(d) / ref * 100);
+  if (Math.abs(d) / ref < 0.05) return `${label}とほぼ同じ（差 ${num(Math.abs(d))} ミリ秒）`;
+  return d > 0
+    ? `${label}より ${num(d)} ミリ秒（約${pct}%）速い`
+    : `${label}より ${num(-d)} ミリ秒（約${pct}%）遅い`;
+}
+
+// ----- 表示 -----
+function renderResult(action, r) {
+  let h = `<div class="ms">${num(r.ms)}<small> ミリ秒</small></div>`;
+  if (action === 'add') h += `<div class="alert alert-success py-2 small mt-2 mb-0">登録できました</div>`;
+  if (action === 'search') h += searchTable(r.data || []);
+  if (action === 'agg') h += aggTable(r.data || []);
+  document.getElementById('r-' + action).innerHTML = h;
+}
+
+function renderError(action, msg) {
+  document.getElementById('r-' + action).innerHTML =
+    `<div class="alert alert-danger small mb-0">うまくいきませんでした：${esc(msg)}</div>`;
+}
+
+function searchTable(rows) {
+  if (!rows.length) return '<div class="small text-muted mt-2">該当するデータはありませんでした。</div>';
+  let h = `<div class="small my-2"><span class="badge text-bg-secondary">${rows.length}件表示（最大${SEARCH_LIMIT}件）</span></div><div class="tw"><table class="table table-sm table-striped mb-0"><thead><tr><th>氏名</th><th>部署</th><th class="text-end">金額</th><th>日時</th></tr></thead><tbody>`;
+  rows.forEach(r => {
+    const d = r.created_at ? new Date(r.created_at) : null;
+    h += `<tr><td>${esc(r.user_name)}</td><td>${esc(r.department)}</td><td class="text-end">${num(r.amount)}</td><td>${d && !isNaN(d) ? d.toLocaleDateString('ja-JP') : ''}</td></tr>`;
+  });
+  return h + '</tbody></table></div>';
+}
+
+function aggTable(rows) {
+  if (!rows.length) return '<div class="small text-muted mt-2">データがありません。</div>';
+  let h = `<div class="tw mt-2"><table class="table table-sm table-striped mb-0"><thead><tr><th>まとめた単位</th><th class="text-end">売上合計（円）</th><th class="text-end">件数</th></tr></thead><tbody>`;
+  rows.forEach(r => { h += `<tr><td>${esc(r.group_key)}</td><td class="text-end">${num(r.total_amount)}</td><td class="text-end">${num(r.sales_count)}</td></tr>`; });
+  return h + '</tbody></table></div>';
+}
+
+function renderStat(action) {
+  const s = stats(action);
+  const chips = runs[action].map((r, i) =>
+    r.ok ? `<span>${i + 1}回目 ${num(r.ms)}ms</span>` : `<span class="err">${i + 1}回目 エラー</span>`).join('');
+  let h = `<div class="head mb-1">${REF[action].name}の測定結果</div><div class="chips">${chips}</div>`;
+  if (s.n) {
+    h += `<div><b>直通の平均：${num(s.avg)} ミリ秒</b>（成功${s.n}回` + (s.err ? ` / エラー${s.err}回` : '') + `、中央値 ${num(s.med)}、最小 ${num(s.min)}、最大 ${num(s.max)}）</div>`;
+    h += `<div class="small">GAS経由のSupabase平均 ${num(REF[action].sbGas)} ミリ秒に対して：${diffText(s.avg, REF[action].sbGas, 'GAS経由')}</div>`;
+  }
+  document.getElementById('st-' + action).innerHTML = h;
+}
+
+function buildReport() {
+  const lines = ['【Supabase 直通 と GAS経由 の平均値比較】', ''];
+  let any = false;
+  for (const a of ['add', 'search', 'agg']) {
+    const s = stats(a), r = REF[a];
+    lines.push(r.name);
+    if (!s.n) {
+      lines.push('  Supabase直通　　　：未測定' + (s.err ? `（エラー${s.err}回）` : ''));
+    } else {
+      any = true;
+      lines.push(`  Supabase直通　　　：平均 ${num(s.avg)} ミリ秒（成功${s.n}回` + (s.err ? ` / エラー${s.err}回` : '') + `、中央値 ${num(s.med)}）`);
+    }
+    lines.push(`  Supabase（GAS経由）：平均 ${num(r.sbGas)} ミリ秒`);
+    lines.push(`  BigQuery（GAS経由）：平均 ${num(r.bqGas)} ミリ秒`);
+    if (s.n) {
+      lines.push('  → 直通は ' + diffText(s.avg, r.sbGas, 'Supabase（GAS経由）'));
+      lines.push('  → 直通は ' + diffText(s.avg, r.bqGas, 'BigQuery（GAS経由）'));
+    }
+    lines.push('');
+  }
+  return any ? lines.join('\n').trim() : 'まだ測定していません。';
+}
+
+function renderReport() { document.getElementById('report').textContent = buildReport(); }
+
+function copyReport() {
+  const t = document.getElementById('report').textContent;
+  (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject())
+    .then(() => alert('コピーしました。'))
+    .catch(() => {
+      const r = document.createRange(); r.selectNodeContents(document.getElementById('report'));
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      alert('テキストを選択しました。Ctrl+C でコピーしてください。');
+    });
+}
+
+function resetAll() {
+  if (!confirm('測定結果をすべてリセットしますか？')) return;
+  for (const a of ['add', 'search', 'agg']) {
+    runs[a] = [];
+    document.getElementById('r-' + a).innerHTML = '<span class="ph">結果がここに出ます</span>';
+    document.getElementById('st-' + a).innerHTML = '<span class="ph">まだ測定していません</span>';
+  }
+  renderReport();
+}
+</script>
 </body>
 </html>
